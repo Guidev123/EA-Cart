@@ -12,3 +12,10 @@ The Cart API is responsible for managing the shopping cart of the eCommerce appl
 - **Use Cases**: The application is structured around use cases, each representing a specific action or business process. This ensures that the business logic is well encapsulated and maintainable.
 - **Business Rules**: The API focuses on enforcing the core business logic related to the shopping cart, such as adding, removing, and updating items, and calculating the total cost of the cart.
 ****
+
+## Use Cases
+
+![image](https://github.com/user-attachments/assets/afb12b1b-2422-4732-98fc-d11b3d217051)
+
+
+
