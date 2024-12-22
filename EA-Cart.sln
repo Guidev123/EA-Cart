@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.API", "src\Cart.API\Cart.API.csproj", "{E070AA7D-231F-4A7D-A5E0-28BBBB2707E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Core", "src\Cart.Core\Cart.Core.csproj", "{691924F1-9E0A-466B-B0D8-57C85B3FCC90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Infrastructure", "Cart.Infrastructure\Cart.Infrastructure.csproj", "{4A7B975D-AA2D-4A96-8108-D00F44F9CD6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E070AA7D-231F-4A7D-A5E0-28BBBB2707E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E070AA7D-231F-4A7D-A5E0-28BBBB2707E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E070AA7D-231F-4A7D-A5E0-28BBBB2707E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E070AA7D-231F-4A7D-A5E0-28BBBB2707E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691924F1-9E0A-466B-B0D8-57C85B3FCC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691924F1-9E0A-466B-B0D8-57C85B3FCC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691924F1-9E0A-466B-B0D8-57C85B3FCC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691924F1-9E0A-466B-B0D8-57C85B3FCC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7B975D-AA2D-4A96-8108-D00F44F9CD6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7B975D-AA2D-4A96-8108-D00F44F9CD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7B975D-AA2D-4A96-8108-D00F44F9CD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7B975D-AA2D-4A96-8108-D00F44F9CD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
