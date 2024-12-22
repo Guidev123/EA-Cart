@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\Cart.Infrastructure\Cart.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Cart\" />
+  </ItemGroup>
+
 </Project>

@@ -7,6 +7,7 @@ namespace Cart.API.Configurations
         public static void AddApplicationConfig(this WebApplicationBuilder builder)
         {
             builder.RegisterDependencies();
+            builder.AddUseCases();
             builder.Services.AddInfra();
         }
     }
