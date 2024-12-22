@@ -4,10 +4,10 @@ using Cart.Core.Repositories;
 namespace Cart.API.Application.UseCases.CartItem.RemoveItem
 {
     public class RemoveItemHandler(ICustomerCartRepository cartRepository)
-               : IUseCase<RemoveItemRequest, RemoveItemResponse>
+               : UseCase<RemoveItemRequest, RemoveItemResponse>
     {
         private readonly ICustomerCartRepository _cartRepository = cartRepository;
-        public async Task<Response<RemoveItemResponse>> HandleAsync(RemoveItemRequest input)
+        public override async Task<Response<RemoveItemResponse>> HandleAsync(RemoveItemRequest input)
         {
             throw new NotImplementedException();
         }

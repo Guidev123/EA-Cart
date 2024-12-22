@@ -4,10 +4,10 @@ using Cart.Core.Repositories;
 namespace Cart.API.Application.UseCases.Voucher.Create
 {
     public class CreateHandler(ICustomerCartRepository cartRepository)
-               : IUseCase<CreateRequest, CreateResponse>
+               : UseCase<CreateRequest, CreateResponse>
     {
         private readonly ICustomerCartRepository _cartRepository = cartRepository;
-        public async Task<Response<CreateResponse>> HandleAsync(CreateRequest input)
+        public override async Task<Response<CreateResponse>> HandleAsync(CreateRequest input)
         {
             throw new NotImplementedException();
         }
