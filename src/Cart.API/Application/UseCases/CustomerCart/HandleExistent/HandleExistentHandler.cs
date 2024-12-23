@@ -4,10 +4,10 @@ using Cart.Core.Repositories;
 namespace Cart.API.Application.UseCases.CustomerCart.HandleExistent
 {
     public class HandleExistentHandler(ICustomerCartRepository cartRepository)
-               : UseCase<HandleExistentRequest, HandleExistentResponse>
+               : Handler, IUseCase<HandleExistentRequest, HandleExistentResponse>
     {
         private readonly ICustomerCartRepository _cartRepository = cartRepository;
-        public override async Task<Response<HandleExistentResponse>> HandleAsync(HandleExistentRequest input)
+        public async Task<Response<HandleExistentResponse>> HandleAsync(HandleExistentRequest input)
         {
             throw new NotImplementedException();
         }
