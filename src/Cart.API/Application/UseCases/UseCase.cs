@@ -14,7 +14,6 @@ namespace Cart.API.Application.UseCases
             where TValidator : AbstractValidator<TEntity>
             where TEntity : class => validation.Validate(entity);
 
-        public virtual Task<Response<Out>> HandleAsync(Inp input) =>
-            throw new NotImplementedException();
+        public abstract Task<Response<Out>> HandleAsync(Inp input);
     }
 }
