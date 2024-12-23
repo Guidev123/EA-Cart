@@ -6,6 +6,7 @@ using Cart.API.Application.UseCases.CustomerCart.HandleExistent;
 using Cart.API.Application.UseCases.CustomerCart.HandleNew;
 using Cart.API.Application.UseCases.Voucher.Create;
 using Cart.API.Application.UseCases.Voucher.Remove;
+using Cart.Core.Repositories;
 using Cart.Infrastructure.Persistence.Configurations;
 
 namespace Cart.API.Configurations
@@ -33,5 +34,6 @@ namespace Cart.API.Configurations
             builder.Services.AddTransient<IUseCase<CreateRequest, CreateResponse>, CreateHandler>();
             builder.Services.AddTransient<IUseCase<RemoveRequest, RemoveResponse>, RemoveHandler>();
         }
+
     }
 }

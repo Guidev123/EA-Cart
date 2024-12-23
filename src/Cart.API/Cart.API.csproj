@@ -19,11 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Cart.Infrastructure\Cart.Infrastructure.csproj" />
+    <Folder Include="Endpoints\Cart\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\Cart\" />
+    <ProjectReference Include="..\Cart.Infrastructure\Cart.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
