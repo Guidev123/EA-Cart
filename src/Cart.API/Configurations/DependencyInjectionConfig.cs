@@ -1,11 +1,10 @@
 ﻿using Cart.API.Application.UseCases;
-using Cart.API.Application.UseCases.CartItem.RemoveItem;
-using Cart.API.Application.UseCases.CartItem.UpdateItem;
-using Cart.API.Application.UseCases.CustomerCart.ApplyVoucher;
-using Cart.API.Application.UseCases.CustomerCart.HandleExistent;
-using Cart.API.Application.UseCases.CustomerCart.HandleNew;
-using Cart.API.Application.UseCases.Voucher.Create;
-using Cart.API.Application.UseCases.Voucher.Remove;
+using Cart.API.Application.UseCases.CartItemCases.RemoveItem;
+using Cart.API.Application.UseCases.CartItemCases.UpdateItem;
+using Cart.API.Application.UseCases.CustomerCartCases.ApplyVoucher;
+using Cart.API.Application.UseCases.CustomerCartCases.Handle;
+using Cart.API.Application.UseCases.VoucherCases.Create;
+using Cart.API.Application.UseCases.VoucherCases.Remove;
 using Cart.Core.Repositories;
 using Cart.Infrastructure.Persistence.Configurations;
 
@@ -27,8 +26,7 @@ namespace Cart.API.Configurations
 
             // CustomerCart
             builder.Services.AddTransient<IUseCase<ApplyVoucherRequest, ApplyVoucherResponse>, ApplyVoucherHandler>();
-            builder.Services.AddTransient<IUseCase<HandleExistentRequest, HandleExistentResponse>, HandleExistentHandler>();
-            builder.Services.AddTransient<IUseCase<HandleNewRequest, HandleNewResponse>, HandleNewHandler>();
+            builder.Services.AddTransient<IUseCase<HandleRequest, HandleResponse>, HandleHandler>();
 
             // Voucher
             builder.Services.AddTransient<IUseCase<CreateRequest, CreateResponse>, CreateHandler>();

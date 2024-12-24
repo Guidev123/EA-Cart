@@ -23,7 +23,7 @@ namespace Cart.Core.Entities
         }
         internal CartItem GetProductById(Guid productId) => Itens.First(x => x.ProductId == productId);
         internal bool ItemCartAlreadyExists(CartItem item) => Itens.Any(x => x.ProductId == item.ProductId);
-        internal void AddItem(CartItem item)
+        public void AddItem(CartItem item)
         {
             item.AssociateCart(Id);
 
