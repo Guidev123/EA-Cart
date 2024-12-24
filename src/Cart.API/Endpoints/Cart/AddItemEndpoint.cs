@@ -1,6 +1,6 @@
 ﻿using Cart.Application.Services;
 using Cart.Application.UseCases;
-using Cart.Application.UseCases.CustomerCartCases.Handle;
+using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Core.Repositories;
 
 namespace Cart.API.Endpoints.Cart
@@ -12,8 +12,8 @@ namespace Cart.API.Endpoints.Cart
 
         private static async Task<IResult> HandleAsync(IUserService user,
                                                        ICustomerCartRepository cartRepository,
-                                                       IUseCase<HandleRequest, HandleResponse> useCase,
-                                                       HandleRequest request)
+                                                       IUseCase<AddItemRequest, AddItemResponse> useCase,
+                                                       AddItemRequest request)
         {
             var userId = await user.GetUserIdAsync();
             if(userId is null) return TypedResults.BadRequest();

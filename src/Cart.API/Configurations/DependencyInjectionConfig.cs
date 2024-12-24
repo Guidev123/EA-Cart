@@ -1,10 +1,9 @@
 ﻿using Cart.Application.UseCases;
-using Cart.Application.UseCases.CartItemCases.RemoveItem;
-using Cart.Application.UseCases.CartItemCases.UpdateItem;
-using Cart.Application.UseCases.CustomerCartCases.ApplyVoucher;
-using Cart.Application.UseCases.CustomerCartCases.Handle;
-using Cart.Application.UseCases.VoucherCases.Create;
-using Cart.Application.UseCases.VoucherCases.Remove;
+using Cart.Application.UseCases.Cart.AddItem;
+using Cart.Application.UseCases.Cart.ApplyVoucher;
+using Cart.Application.UseCases.Item.Update;
+using Cart.Application.UseCases.Voucher.Create;
+using Cart.Application.UseCases.Voucher.Remove;
 using Cart.Infrastructure.Persistence.Configurations;
 
 namespace Cart.API.Configurations
@@ -20,16 +19,16 @@ namespace Cart.API.Configurations
         public static void AddUseCases(this WebApplicationBuilder builder)
         {
             // CartItem
-            builder.Services.AddTransient<IUseCase<RemoveItemRequest, RemoveItemResponse>, RemoveItemHandler>();
-            builder.Services.AddTransient<IUseCase<UpdateItemRequest, UpdateItemResponse>, UpdateItemHandler>();
+            builder.Services.AddTransient<IUseCase<Application.UseCases.Item.Remove.RemoveRequest, Application.UseCases.Item.Remove.RemoveResponse>, Application.UseCases.Item.Remove.RemoveHandler>();
+            builder.Services.AddTransient<IUseCase<UpdateRequest, UpdateResponse>, UpdateHandler>();
 
             // CustomerCart
             builder.Services.AddTransient<IUseCase<ApplyVoucherRequest, ApplyVoucherResponse>, ApplyVoucherHandler>();
-            builder.Services.AddTransient<IUseCase<HandleRequest, HandleResponse>, HandleHandler>();
+            builder.Services.AddTransient<IUseCase<AddItemRequest, AddItemResponse>, AddItemHandler>();
 
             // Voucher
             builder.Services.AddTransient<IUseCase<CreateRequest, CreateResponse>, CreateHandler>();
-            builder.Services.AddTransient<IUseCase<RemoveRequest, RemoveResponse>, RemoveHandler>();
+            builder.Services.AddTransient<IUseCase<Application.UseCases.Voucher.Remove.RemoveRequest, Application.UseCases.Voucher.Remove.RemoveResponse>, Application.UseCases.Voucher.Remove.RemoveHandler>();
         }
 
     }

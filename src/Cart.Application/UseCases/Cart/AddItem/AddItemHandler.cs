@@ -4,13 +4,13 @@ using Cart.Core.Entities;
 using Cart.Core.Repositories;
 using Cart.Core.Validators;
 
-namespace Cart.Application.UseCases.CustomerCartCases.Handle
+namespace Cart.Application.UseCases.Cart.AddItem
 {
-    public class HandleHandler(ICustomerCartRepository cartRepository)
-               : Handler, IUseCase<HandleRequest, HandleResponse>
+    public class AddItemHandler(ICustomerCartRepository cartRepository)
+               : Handler, IUseCase<AddItemRequest, AddItemResponse>
     {
         private readonly ICustomerCartRepository _cartRepository = cartRepository;
-        public async Task<Response<HandleResponse>> HandleAsync(HandleRequest input)
+        public async Task<Response<AddItemResponse>> HandleAsync(AddItemRequest input)
         {
             var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId);
             var cartItem = input.MapToEntity();
@@ -30,10 +30,10 @@ namespace Cart.Application.UseCases.CustomerCartCases.Handle
 
             _cartRepository.UpdateCart(customerCart);
 
-            return new(null, 201);
+            return new(new AddItemResponse(customerCart.Id), 201);
         }
 
-        private async Task<Response<HandleResponse>> HandleNewAsync(Guid customerId, CartItem cartItem)
+        private async Task<Response<AddItemResponse>> HandleNewAsync(Guid customerId, CartItem cartItem)
         {
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
@@ -43,7 +43,7 @@ namespace Cart.Application.UseCases.CustomerCartCases.Handle
 
             customerCart.AddItem(cartItem);
             await _cartRepository.CreateAsync(customerCart);
-            return new(null, 201);
+            return new(new AddItemResponse(customerCart.Id), 201);
         }
     }
 }

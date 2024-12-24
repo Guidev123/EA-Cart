@@ -1,11 +1,11 @@
-﻿using Cart.Application.UseCases.CustomerCartCases.Handle;
+﻿using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Core.Entities;
 
 namespace Cart.Application.Mappers
 {
     public static class CartItemMappers
     {
-        public static CartItem MapToEntity(this HandleRequest request) =>
+        public static CartItem MapToEntity(this AddItemRequest request) =>
             new(request.ProductId, request.Name, request.Price, request.ImageUrl, request.Quantity);
     }
 }

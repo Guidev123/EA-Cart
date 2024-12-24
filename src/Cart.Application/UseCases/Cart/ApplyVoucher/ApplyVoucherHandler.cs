@@ -1,7 +1,7 @@
 ﻿using Cart.Application.Response;
 using Cart.Core.Repositories;
 
-namespace Cart.Application.UseCases.CustomerCartCases.ApplyVoucher
+namespace Cart.Application.UseCases.Cart.ApplyVoucher
 {
     public class ApplyVoucherHandler(ICustomerCartRepository cartRepository)
                : Handler, IUseCase<ApplyVoucherRequest, ApplyVoucherResponse>

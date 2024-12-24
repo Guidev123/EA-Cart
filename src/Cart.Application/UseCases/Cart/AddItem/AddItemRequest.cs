@@ -1,8 +1,8 @@
-﻿namespace Cart.Application.UseCases.CustomerCartCases.Handle
+﻿namespace Cart.Application.UseCases.Cart.AddItem
 {
-    public class HandleRequest
+    public class AddItemRequest
     {
-        public HandleRequest(Guid productId, string name, decimal price, string imageUrl, int quantity)
+        public AddItemRequest(Guid productId, string name, decimal price, string imageUrl, int quantity)
         {
             ProductId = productId;
             Name = name;
