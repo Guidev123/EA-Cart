@@ -1,6 +1,8 @@
-﻿using Cart.Core.Repositories;
+﻿using Cart.Application.Services;
+using Cart.Core.Repositories;
 using Cart.Infrastructure.Persistence;
 using Cart.Infrastructure.Persistence.Repositories;
+using Cart.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cart.Infrastructure
@@ -11,6 +13,7 @@ namespace Cart.Infrastructure
         {
             services.AddContextDependencyInjection();
             services.AddRepositories();
+            services.AddServices();
         }
 
         public static void AddContextDependencyInjection(this IServiceCollection services) =>
@@ -18,5 +21,10 @@ namespace Cart.Infrastructure
 
         public static void AddRepositories(this IServiceCollection services) =>
             services.AddTransient<ICustomerCartRepository, CustomerCartRepository>();
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddTransient<IUserService, UserService>();
+        }
     }
 }

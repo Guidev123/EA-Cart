@@ -1,4 +1,5 @@
 using Cart.API.Configurations;
+using Cart.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,5 +13,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapEndpoints();
 
 app.Run();

@@ -1,4 +1,6 @@
-﻿namespace Cart.API.Endpoints
+﻿using Cart.API.Endpoints.Cart;
+
+namespace Cart.API.Endpoints
 {
     public static class Endpoint
     {
@@ -6,7 +8,8 @@
         {
             var endpoints = app.MapGroup("");
 
-
+            endpoints.MapGroup("api/v1/cart")
+                .MapEndpoint<AddItemEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

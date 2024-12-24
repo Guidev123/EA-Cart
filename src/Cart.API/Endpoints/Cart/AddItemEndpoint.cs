@@ -1,6 +1,6 @@
-﻿using Cart.API.Application.Services;
-using Cart.API.Application.UseCases;
-using Cart.API.Application.UseCases.CustomerCartCases.Handle;
+﻿using Cart.Application.Services;
+using Cart.Application.UseCases;
+using Cart.Application.UseCases.CustomerCartCases.Handle;
 using Cart.Core.Repositories;
 
 namespace Cart.API.Endpoints.Cart
@@ -16,12 +16,12 @@ namespace Cart.API.Endpoints.Cart
                                                        HandleRequest request)
         {
             var userId = await user.GetUserIdAsync();
-            if(userId.Equals(Guid.Empty)) return TypedResults.BadRequest();
+            if(userId is null) return TypedResults.BadRequest();
 
             var result = await useCase.HandleAsync(request);
 
             return result.IsSuccess 
-                ? TypedResults.Created(string.Empty, result)
+                ? TypedResults.Created($"/{userId}", result)
                 : TypedResults.BadRequest(result);
         }
     }

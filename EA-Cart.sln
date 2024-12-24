@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Core", "src\Cart.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Infrastructure", "src\Cart.Infrastructure\Cart.Infrastructure.csproj", "{CE7231BB-6C40-4BE2-B5F3-B54840C0269E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart.Application", "src\Cart.Application\Cart.Application.csproj", "{90943704-4095-4034-B38D-8839416DBAF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CE7231BB-6C40-4BE2-B5F3-B54840C0269E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE7231BB-6C40-4BE2-B5F3-B54840C0269E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE7231BB-6C40-4BE2-B5F3-B54840C0269E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90943704-4095-4034-B38D-8839416DBAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90943704-4095-4034-B38D-8839416DBAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90943704-4095-4034-B38D-8839416DBAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90943704-4095-4034-B38D-8839416DBAF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
