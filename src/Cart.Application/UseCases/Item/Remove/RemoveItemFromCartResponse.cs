@@ -1,4 +1,4 @@
 ﻿namespace Cart.Application.UseCases.Item.Remove
 {
-    public record RemoveResponse();
+    public record RemoveItemFromCartResponse();
 }

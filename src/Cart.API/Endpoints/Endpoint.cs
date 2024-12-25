@@ -1,4 +1,4 @@
-﻿using Cart.API.Endpoints.Cart;
+﻿using Cart.API.Endpoints.ShoppingCart;
 
 namespace Cart.API.Endpoints
 {
@@ -9,7 +9,10 @@ namespace Cart.API.Endpoints
             var endpoints = app.MapGroup("");
 
             endpoints.MapGroup("api/v1/cart")
-                .MapEndpoint<AddItemEndpoint>();
+                .MapEndpoint<AddItemEndpoint>()
+                .MapEndpoint<ApplyVoucherEndpoint>()
+                .MapEndpoint<RemoveItemEndpoint>()
+                .MapEndpoint<UpdateItemEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

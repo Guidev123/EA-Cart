@@ -1,4 +1,4 @@
 ﻿namespace Cart.Application.UseCases.Item.Update
 {
-    public record UpdateResponse();
+    public record UpdateCartItemResponse();
 }

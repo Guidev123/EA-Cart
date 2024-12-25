@@ -1,4 +1,4 @@
 ﻿namespace Cart.Application.UseCases.Voucher.Remove
 {
-    public record RemoveResponse();
+    public record RemoveVoucherRequest();
 }

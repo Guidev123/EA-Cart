@@ -38,8 +38,7 @@ namespace Cart.Core.Entities
             Itens.Add(item);
             CalculateTotalPrice();
         }
-
-        internal void UpdateItem(CartItem item)
+        public void UpdateItem(CartItem item)
         {
             item.AssociateCart(Id);
 
@@ -51,13 +50,13 @@ namespace Cart.Core.Entities
             CalculateTotalPrice();
         }
 
-        internal void RemoveItem(CartItem item)
+        public void RemoveItem(CartItem item)
         {
             Itens.Remove(GetProductById(item.ProductId));
             CalculateTotalPrice();
         }
 
-        internal void UpdateUnities(CartItem item, int unities)
+        public void UpdateUnities(CartItem item, int unities)
         {
             item.UpdateUnities(unities);
             UpdateItem(item);
@@ -70,7 +69,7 @@ namespace Cart.Core.Entities
             CalculateTotalPrice();
         }
 
-        private void CalculateTotalPriceDiscount()
+        public void CalculateTotalPriceDiscount()
         {
             if (!VoucherIsUsed) return;
 

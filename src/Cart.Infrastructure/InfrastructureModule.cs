@@ -19,12 +19,13 @@ namespace Cart.Infrastructure
         public static void AddContextDependencyInjection(this IServiceCollection services) =>
             services.AddDbContext<CartDbContext>();
 
-        public static void AddRepositories(this IServiceCollection services) =>
-            services.AddTransient<ICustomerCartRepository, CustomerCartRepository>();
-
-        public static void AddServices(this IServiceCollection services)
+        public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IVoucherRepository, VoucherRepository>();
         }
+
+        public static void AddServices(this IServiceCollection services) =>
+            services.AddScoped<IUserService, UserService>();
     }
 }

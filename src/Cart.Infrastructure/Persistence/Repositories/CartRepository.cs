@@ -3,9 +3,10 @@ using Cart.Core.Repositories;
 
 namespace Cart.Infrastructure.Persistence.Repositories
 {
-    public class CustomerCartRepository(CartDbContext context) : ICustomerCartRepository
+    public class CartRepository(CartDbContext context) : ICartRepository
     {
         private readonly CartDbContext _context = context;
+
         public Task AddCartItem(CartItem item)
         {
             throw new NotImplementedException();
@@ -22,6 +23,16 @@ namespace Cart.Infrastructure.Persistence.Repositories
         }
 
         public Task<CustomerCart> GetByCustomerIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CartItem?> GetCartItemByIdAsync(Guid cartId, Guid productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCartItem(CartItem item)
         {
             throw new NotImplementedException();
         }

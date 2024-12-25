@@ -3,7 +3,7 @@ using Cart.Application.UseCases;
 using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Core.Repositories;
 
-namespace Cart.API.Endpoints.Cart
+namespace Cart.API.Endpoints.ShoppingCart
 {
     public class AddItemEndpoint : IEndpoint
     {
@@ -11,16 +11,18 @@ namespace Cart.API.Endpoints.Cart
             app.MapPost("/", HandleAsync).Produces<IResult>();
 
         private static async Task<IResult> HandleAsync(IUserService user,
-                                                       ICustomerCartRepository cartRepository,
-                                                       IUseCase<AddItemRequest, AddItemResponse> useCase,
-                                                       AddItemRequest request)
+                                                       ICartRepository cartRepository,
+                                                       IUseCase<AddItemToCartRequest, AddItemToCartResponse> useCase,
+                                                       AddItemToCartRequest request)
         {
             var userId = await user.GetUserIdAsync();
-            if(userId is null) return TypedResults.BadRequest();
+            if (userId is null) return TypedResults.BadRequest();
+
+            request.AssociateCustomerId(userId.Value);
 
             var result = await useCase.HandleAsync(request);
 
-            return result.IsSuccess 
+            return result.IsSuccess
                 ? TypedResults.Created($"/{userId}", result)
                 : TypedResults.BadRequest(result);
         }

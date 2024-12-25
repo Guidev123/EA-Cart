@@ -6,16 +6,16 @@ using Cart.Core.Validators;
 
 namespace Cart.Application.UseCases.Cart.AddItem
 {
-    public class AddItemHandler(ICustomerCartRepository cartRepository)
-               : Handler, IUseCase<AddItemRequest, AddItemResponse>
+    public class AddItemToCartHandler(ICartRepository cartRepository)
+               : Handler, IUseCase<AddItemToCartRequest, AddItemToCartResponse>
     {
-        private readonly ICustomerCartRepository _cartRepository = cartRepository;
-        public async Task<Response<AddItemResponse>> HandleAsync(AddItemRequest input)
+        private readonly ICartRepository _cartRepository = cartRepository;
+        public async Task<Response<AddItemToCartResponse>> HandleAsync(AddItemToCartRequest input)
         {
-            var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId);
+            var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId!.Value);
             var cartItem = input.MapToEntity();
 
-            if (customerCart is null) return await HandleNewAsync(input.CustomerId, cartItem);
+            if (customerCart is null) return await HandleNewAsync(input.CustomerId.Value, cartItem);
 
             var existentProduct = await _cartRepository.CartItemAlreadyExists(cartItem);
 
@@ -30,10 +30,10 @@ namespace Cart.Application.UseCases.Cart.AddItem
 
             _cartRepository.UpdateCart(customerCart);
 
-            return new(new AddItemResponse(customerCart.Id), 201);
+            return new(new AddItemToCartResponse(customerCart.Id), 201);
         }
 
-        private async Task<Response<AddItemResponse>> HandleNewAsync(Guid customerId, CartItem cartItem)
+        private async Task<Response<AddItemToCartResponse>> HandleNewAsync(Guid customerId, CartItem cartItem)
         {
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
@@ -43,7 +43,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
 
             customerCart.AddItem(cartItem);
             await _cartRepository.CreateAsync(customerCart);
-            return new(new AddItemResponse(customerCart.Id), 201);
+            return new(new AddItemToCartResponse(customerCart.Id), 201);
         }
     }
 }

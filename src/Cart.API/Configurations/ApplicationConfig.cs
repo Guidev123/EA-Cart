@@ -1,4 +1,6 @@
-﻿using Cart.Infrastructure;
+﻿using Cart.Application;
+using Cart.Infrastructure;
+using Cart.Infrastructure.Persistence.Configurations;
 
 namespace Cart.API.Configurations
 {
@@ -6,9 +8,12 @@ namespace Cart.API.Configurations
     {
         public static void AddApplicationConfig(this WebApplicationBuilder builder)
         {
-            builder.RegisterDependencies();
-            builder.AddUseCases();
+            RegisterContextSettings(builder);
+            builder.Services.AddApplication();
             builder.Services.AddInfra();
         }
+
+        public static void RegisterContextSettings(this WebApplicationBuilder builder) =>
+            builder.Services.Configure<ContextSettings>(builder.Configuration.GetSection(nameof(ContextSettings)));
     }
 }
