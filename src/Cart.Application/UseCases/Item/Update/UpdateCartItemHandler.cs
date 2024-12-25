@@ -5,13 +5,13 @@ using Cart.Core.Validators;
 
 namespace Cart.Application.UseCases.Item.Update
 {
-    public class UpdateCartItemHandler(ICartRepository cartRepository)
+    public class UpdateCartItemHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<UpdateCartItemRequest, UpdateCartItemResponse>
     {
-        private readonly ICartRepository _cartRepository = cartRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Response<UpdateCartItemResponse>> HandleAsync(UpdateCartItemRequest input)
         {
-            var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId);
+            var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
             if (customerCart is null) return new(null, 404, "Cart not found");
 
             var item = customerCart.Itens.FirstOrDefault(x => x.ProductId == input.ProductId);
@@ -22,10 +22,17 @@ namespace Cart.Application.UseCases.Item.Update
 
             customerCart.UpdateUnities(itemCart.Data, item.Quantity);
 
-            _cartRepository.UpdateCartItem(item);
-            _cartRepository.UpdateCart(customerCart);
+            await _unitOfWork.BeginTransactionAsync();
 
-            return new(null, 204);
+            _unitOfWork.Carts.UpdateCartItem(item);
+            await _unitOfWork.CompleteAsync();
+
+            _unitOfWork.Carts.UpdateCart(customerCart);
+            await _unitOfWork.CompleteAsync();
+
+            return await _unitOfWork.CommitAsync()
+                            ? new(null, 204)
+                            : new(null, 400, "Something has failed to save data");
         }
 
         private async Task<Response<CartItem>> GetItemCartValidatedAsync(CustomerCart customerCart,
@@ -49,7 +56,7 @@ namespace Cart.Application.UseCases.Item.Update
                 return new(item, 400, "Error", GetAllErrors(validationResult));
             }
 
-            var cart = await _cartRepository.GetCartItemByIdAsync(item.CartId, productId);
+            var cart = await _unitOfWork.Carts.GetCartItemByIdAsync(item.CartId, productId);
             if (cart is null)
             {
                 AddError(validationResult, "Item not found");

@@ -3,18 +3,18 @@ using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Voucher.Remove
 {
-    public class RemoveVoucherHandler(IVoucherRepository voucherRepository)
+    public class RemoveVoucherHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<RemoveVoucherRequest, RemoveVoucherResponse>
     {
-        private readonly IVoucherRepository _voucherRepository = voucherRepository;
-
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Response<RemoveVoucherResponse>> HandleAsync(RemoveVoucherRequest input)
         {
-            var voucher = await _voucherRepository.GetByCodeAsync(input.Code);
+            var voucher = await _unitOfWork.Vouchers.GetByCodeAsync(input.Code);
             if (voucher is null)
                 return new(null, 404, "Voucher not found");
 
-            _voucherRepository.Delete(voucher);
+            _unitOfWork.Vouchers.Delete(voucher);
+            await _unitOfWork.CompleteAsync();
 
             return new(null, 204);
         }

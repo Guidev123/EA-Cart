@@ -3,13 +3,13 @@ using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Item.Remove
 {
-    public class RemoveItemFromCartHandler(ICartRepository cartRepository)
+    public class RemoveItemFromCartHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse>
     {
-        private readonly ICartRepository _cartRepository = cartRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Response<RemoveItemFromCartResponse>> HandleAsync(RemoveItemFromCartRequest input)
         {
-            var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId);
+            var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
             if (customerCart is null) return new(null, 404, "Cart not found");
 
             var cartItem = customerCart.Itens.FirstOrDefault(x => x.ProductId == input.ProductId);
@@ -17,10 +17,17 @@ namespace Cart.Application.UseCases.Item.Remove
 
             customerCart.RemoveItem(cartItem);
 
-            _cartRepository.RemoveCartItem(cartItem);
-            _cartRepository.UpdateCart(customerCart);
+            await _unitOfWork.BeginTransactionAsync();
 
-            return new(null, 204);
+            _unitOfWork.Carts.RemoveCartItem(cartItem);
+            await _unitOfWork.CompleteAsync();
+
+            _unitOfWork.Carts.UpdateCart(customerCart);
+            await _unitOfWork.CompleteAsync();
+
+            return await _unitOfWork.CommitAsync()
+                ? new(null, 204)
+                : new(null, 400, "Something has failed to save data");
         }
     }
 }

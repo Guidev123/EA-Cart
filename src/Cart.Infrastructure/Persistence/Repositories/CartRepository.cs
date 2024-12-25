@@ -8,7 +8,7 @@ namespace Cart.Infrastructure.Persistence.Repositories
     {
         private readonly CartDbContext _context = context;
         public async Task<CustomerCart?> GetByCustomerIdAsync(Guid id) =>
-            await _context.CustomerCarts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            await _context.CustomerCarts.Include(x => x.Itens).FirstOrDefaultAsync(x => x.CustomerId == id);
 
         public async Task CreateAsync(CustomerCart cart) =>
             await _context.CustomerCarts.AddAsync(cart);
@@ -24,7 +24,7 @@ namespace Cart.Infrastructure.Persistence.Repositories
             await _context.CartItems.AddAsync(item);
 
         public async Task<bool> CartItemAlreadyExists(Guid itemId) =>
-            await _context.CartItems.AsNoTracking().AnyAsync(x => x.ProductId == itemId);
+            await _context.CartItems.AnyAsync(x => x.ProductId == itemId);
 
         public async Task<CartItem?> GetCartItemByIdAsync(Guid cartId, Guid productId) =>
             await _context.CartItems.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == productId && x.CartId == cartId);

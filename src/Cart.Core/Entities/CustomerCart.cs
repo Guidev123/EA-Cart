@@ -8,7 +8,6 @@ namespace Cart.Core.Entities
         {
             CustomerId = customerId;
             TotalPrice = 0;
-            Itens = [];
             VoucherIsUsed = false;
             Discount = 0;
         }
@@ -19,6 +18,7 @@ namespace Cart.Core.Entities
         public List<CartItem> Itens { get; private set; } = [];
         public bool VoucherIsUsed { get; private set; }
         public decimal Discount { get; private set; }
+        public Guid? VoucherId { get; private set; }
         public Voucher? Voucher { get; private set; }
         internal void CalculateTotalPrice()
         {
@@ -69,7 +69,9 @@ namespace Cart.Core.Entities
         public void ApplyVoucher(Voucher voucher)
         {
             Voucher = voucher;
+            VoucherId = voucher.Id;
             VoucherIsUsed = true;
+            voucher.DiscountQuantity();
             CalculateTotalPrice();
         }
 

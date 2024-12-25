@@ -24,6 +24,7 @@ namespace Cart.Infrastructure
         {
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IVoucherRepository, VoucherRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public static void AddServices(this IServiceCollection services)

@@ -21,9 +21,9 @@ namespace Cart.Core.Entities
         public int Quantity { get; private set; }
         public Guid CartId { get; private set; }
         public CustomerCart CustomerCart { get; private set; } = null!;
-        internal void AssociateCart(Guid cartId) => CartId = cartId;
-        internal decimal CalculateValue() => Quantity * Price;
-        internal void AddUnity(int quantity) => Quantity += quantity;
-        internal void UpdateUnities(int quantity) => Quantity = quantity;
+        public void AssociateCart(Guid cartId) => CartId = cartId;
+        public decimal CalculateValue() => Quantity * Price;
+        public void AddUnity(int quantity) => Quantity += quantity;
+        public void UpdateUnities(int quantity) => Quantity = quantity;
     }
 }

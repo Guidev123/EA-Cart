@@ -5,10 +5,10 @@ using Cart.Core.Validators;
 
 namespace Cart.Application.UseCases.Voucher.Create
 {
-    public class CreateVoucherHandler(IVoucherRepository voucherRepository)
+    public class CreateVoucherHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<CreateVoucherRequest, CreateVoucherResponse>
     {
-        private readonly IVoucherRepository _voucherRepository = voucherRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Response<CreateVoucherResponse>> HandleAsync(CreateVoucherRequest input)
         {
             var voucher = input.MapToEntity();
@@ -17,7 +17,8 @@ namespace Cart.Application.UseCases.Voucher.Create
             if (!validationResult.IsValid)
                 return new(null, 400, "Error", GetAllErrors(validationResult));
 
-            await _voucherRepository.CreateAsync(voucher);
+            await _unitOfWork.Vouchers.CreateAsync(voucher);
+            await _unitOfWork.CompleteAsync();
 
             return new(new(voucher.Id), 201);
         }

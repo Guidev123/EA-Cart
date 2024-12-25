@@ -6,31 +6,39 @@ using Cart.Core.Validators;
 
 namespace Cart.Application.UseCases.Cart.AddItem
 {
-    public class AddItemToCartHandler(ICartRepository cartRepository)
+    public class AddItemToCartHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<AddItemToCartRequest, AddItemToCartResponse>
     {
-        private readonly ICartRepository _cartRepository = cartRepository;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<Response<AddItemToCartResponse>> HandleAsync(AddItemToCartRequest input)
         {
-            var customerCart = await _cartRepository.GetByCustomerIdAsync(input.CustomerId!.Value);
+            var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId!.Value);
             var cartItem = input.MapToEntity();
 
-            if (customerCart is null) return await HandleNewAsync(input.CustomerId.Value, cartItem);
+            await _unitOfWork.BeginTransactionAsync();
 
-            var existentProduct = await _cartRepository.CartItemAlreadyExists(cartItem.Id);
+            if (customerCart is null)
+                return await HandleNewAsync(input.CustomerId.Value, cartItem);
+
+            var existentProduct = await _unitOfWork.Carts.CartItemAlreadyExists(cartItem.Id);
 
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
-            if (!validationResult.IsValid) return new(null, 400, "Error", GetAllErrors(validationResult));
+            if (!validationResult.IsValid)
+                return new(null, 400, "Error", GetAllErrors(validationResult));
 
             customerCart.AddItem(cartItem);
 
-            if (existentProduct) _cartRepository.UpdateCartItem(cartItem);
-            else await _cartRepository.AddCartItem(cartItem);
+            if (existentProduct) _unitOfWork.Carts.UpdateCartItem(cartItem);
+            else await _unitOfWork.Carts.AddCartItem(cartItem);
 
-            _cartRepository.UpdateCart(customerCart);
+            _unitOfWork.Carts.UpdateCart(customerCart);
 
-            return new(new AddItemToCartResponse(customerCart.Id), 201);
+            await _unitOfWork.CompleteAsync();
+
+            return await _unitOfWork.CommitAsync()
+                ? new(new AddItemToCartResponse(customerCart.Id), 201)
+                : new(null, 400, "Something has failed to save data");
         }
 
         private async Task<Response<AddItemToCartResponse>> HandleNewAsync(Guid customerId, CartItem cartItem)
@@ -42,8 +50,12 @@ namespace Cart.Application.UseCases.Cart.AddItem
             var customerCart = new CustomerCart(customerId);
 
             customerCart.AddItem(cartItem);
-            await _cartRepository.CreateAsync(customerCart);
-            return new(new AddItemToCartResponse(customerCart.Id), 201);
+            await _unitOfWork.Carts.CreateAsync(customerCart);
+            await _unitOfWork.CompleteAsync();
+
+            return await _unitOfWork.CommitAsync()
+                ? new(new AddItemToCartResponse(customerCart.Id), 201)
+                : new(null, 400, "Something has failed to save data");
         }
     }
 }
