@@ -20,7 +20,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
             if (customerCart is null)
                 return await HandleNewAsync(input.CustomerId.Value, cartItem);
 
-            var existentProduct = await _unitOfWork.Carts.CartItemAlreadyExists(cartItem.Id);
+            var existentProduct = await _unitOfWork.Carts.CartItemAlreadyExists(cartItem.ProductId);
 
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 

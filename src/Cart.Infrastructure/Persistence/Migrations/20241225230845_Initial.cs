@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Cart.Infrastructure.persistence.migrations
+namespace Cart.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -20,6 +20,7 @@ namespace Cart.Infrastructure.persistence.migrations
                     DiscountValue = table.Column<decimal>(type: "MONEY", nullable: true),
                     Code = table.Column<string>(type: "VARCHAR(160)", nullable: false),
                     DiscountType = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DATETIME2", nullable: false)
                 },
                 constraints: table =>
@@ -55,6 +56,7 @@ namespace Cart.Infrastructure.persistence.migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "VARCHAR(160)", nullable: false),
                     Price = table.Column<decimal>(type: "MONEY", nullable: false),
                     ImageUrl = table.Column<string>(type: "VARCHAR(160)", nullable: false),

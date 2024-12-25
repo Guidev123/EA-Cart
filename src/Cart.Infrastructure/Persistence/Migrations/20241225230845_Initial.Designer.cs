@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cart.Infrastructure.persistence.migrations
+namespace Cart.Infrastructure.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20241222043608_Initial")]
+    [Migration("20241225230845_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -47,6 +47,9 @@ namespace Cart.Infrastructure.persistence.migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("MONEY");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -110,6 +113,9 @@ namespace Cart.Infrastructure.persistence.migrations
 
                     b.Property<decimal?>("Percentual")
                         .HasColumnType("MONEY");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

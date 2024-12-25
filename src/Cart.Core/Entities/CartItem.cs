@@ -14,7 +14,7 @@ namespace Cart.Core.Entities
         }
         protected CartItem() { }
 
-        public Guid ProductId { get; }
+        public Guid ProductId { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public decimal Price { get; private set; }
         public string ImageUrl { get; private set; } = string.Empty;

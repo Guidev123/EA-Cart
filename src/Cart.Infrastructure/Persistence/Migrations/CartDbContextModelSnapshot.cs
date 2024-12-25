@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cart.Infrastructure.persistence.migrations
+namespace Cart.Infrastructure.Migrations
 {
     [DbContext(typeof(CartDbContext))]
     partial class CartDbContextModelSnapshot : ModelSnapshot
@@ -44,6 +44,9 @@ namespace Cart.Infrastructure.persistence.migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("MONEY");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

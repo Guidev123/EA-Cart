@@ -11,8 +11,9 @@ namespace Cart.Infrastructure.Persistence.Mappings
             builder.ToTable("CartItens");
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Price).HasColumnType("MONEY");
-            builder.Property(x => x.CreatedAt).HasColumnType("DATETIME2");
+            builder.Property(x => x.ProductId).HasColumnType("uniqueidentifier").IsRequired();
+            builder.Property(x => x.Price).HasColumnType("MONEY").IsRequired();
+            builder.Property(x => x.CreatedAt).HasColumnType("DATETIME2").IsRequired();
         }
     }
 }
