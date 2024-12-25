@@ -10,7 +10,7 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class UpdateItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPut("/{productId:guid}", HandleAsync).Produces<Response<CustomerCart?>>();
+            app.MapPut("/{productId:guid}", HandleAsync).Produces<Response<UpdateCartItemResponse?>>();
 
         private static async Task<IResult> HandleAsync(Guid productId,
                                                        [FromServices] UpdateCartItemRequest request,

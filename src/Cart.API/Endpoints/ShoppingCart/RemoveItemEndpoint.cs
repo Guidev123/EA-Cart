@@ -12,7 +12,7 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class RemoveItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapDelete("/{productId:guid}", HandleAsync).Produces<Response<CustomerCart?>>();
+            app.MapDelete("/{productId:guid}", HandleAsync).Produces<Response<RemoveItemFromCartResponse?>>();
 
         private static async Task<IResult> HandleAsync(Guid productId,
                                                        [FromServices] IUserService user,

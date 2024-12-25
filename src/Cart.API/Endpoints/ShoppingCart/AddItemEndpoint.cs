@@ -1,4 +1,5 @@
-﻿using Cart.Application.Services;
+﻿using Cart.Application.Response;
+using Cart.Application.Services;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Core.Repositories;
@@ -9,7 +10,7 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class AddItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPost("/", HandleAsync).Produces<IResult>();
+            app.MapPost("/", HandleAsync).Produces<Response<AddItemToCartResponse>>();
 
         private static async Task<IResult> HandleAsync([FromServices] IUserService user,
                                                        [FromServices] ICartRepository cartRepository,

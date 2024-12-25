@@ -1,4 +1,4 @@
 ﻿namespace Cart.Application.UseCases.Voucher.Create
 {
-    public record CreateVoucherResponse();
+    public record CreateVoucherResponse(Guid Id);
 }

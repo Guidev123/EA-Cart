@@ -1,50 +1,39 @@
 ﻿using Cart.Core.Entities;
 using Cart.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cart.Infrastructure.Persistence.Repositories
 {
     public class CartRepository(CartDbContext context) : ICartRepository
     {
         private readonly CartDbContext _context = context;
+        public async Task<CustomerCart?> GetByCustomerIdAsync(Guid id) =>
+            await _context.CustomerCarts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-        public Task AddCartItem(CartItem item)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task CreateAsync(CustomerCart cart) =>
+            await _context.CustomerCarts.AddAsync(cart);
 
-        public Task<bool> CartItemAlreadyExists(CartItem item)
-        {
-            throw new NotImplementedException();
-        }
+        public void UpdateCart(CustomerCart cart) =>
+            _context.CustomerCarts.Update(cart);
 
-        public Task CreateAsync(CustomerCart cart)
-        {
-            throw new NotImplementedException();
-        }
+        public void Remove(CustomerCart cart) =>
+            _context.CustomerCarts.Remove(cart);
 
-        public Task<CustomerCart> GetByCustomerIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<CartItem?> GetCartItemByIdAsync(Guid cartId, Guid productId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task AddCartItem(CartItem item) =>
+            await _context.CartItems.AddAsync(item);
 
-        public void RemoveCartItem(CartItem item)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> CartItemAlreadyExists(Guid itemId) =>
+            await _context.CartItems.AsNoTracking().AnyAsync(x => x.ProductId == itemId);
 
-        public void UpdateCart(CustomerCart cart)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<CartItem?> GetCartItemByIdAsync(Guid cartId, Guid productId) =>
+            await _context.CartItems.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == productId && x.CartId == cartId);
 
-        public void UpdateCartItem(CartItem item)
-        {
-            throw new NotImplementedException();
-        }
+        public void RemoveCartItem(CartItem item) =>
+            _context.CartItems.Remove(item);
+
+        public void UpdateCartItem(CartItem item) =>
+            _context.CartItems.Update(item);
+
     }
 }

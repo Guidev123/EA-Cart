@@ -3,14 +3,20 @@ using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Voucher.Remove
 {
-    public class RemoveVoucherHandler(ICartRepository cartRepository)
+    public class RemoveVoucherHandler(IVoucherRepository voucherRepository)
                : Handler, IUseCase<RemoveVoucherRequest, RemoveVoucherResponse>
     {
-        private readonly ICartRepository _cartRepository = cartRepository;
+        private readonly IVoucherRepository _voucherRepository = voucherRepository;
 
         public async Task<Response<RemoveVoucherResponse>> HandleAsync(RemoveVoucherRequest input)
         {
-            throw new NotImplementedException();
+            var voucher = await _voucherRepository.GetByCodeAsync(input.Code);
+            if (voucher is null)
+                return new(null, 404, "Voucher not found");
+
+            _voucherRepository.Delete(voucher);
+
+            return new(null, 204);
         }
     }
 }

@@ -11,17 +11,17 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class ApplyVoucherEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPost("/apply-voucher/{voucherCode}", HandleAsync).Produces<Response<CustomerCart?>>();
+            app.MapPost("/apply-voucher/{code}", HandleAsync).Produces<Response<ApplyVoucherToCartResponse?>>();
 
         private static async Task<IResult> HandleAsync([FromServices] IUserService user,
                                                        [FromServices] ICartRepository cartRepository,
                                                        [FromServices] IUseCase<ApplyVoucherToCartRequest, ApplyVoucherToCartResponse> useCase,
-                                                       string voucherCode)
+                                                       string code)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();
 
-            var result = await useCase.HandleAsync(new(voucherCode, userId.Value));
+            var result = await useCase.HandleAsync(new(code, userId.Value));
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)

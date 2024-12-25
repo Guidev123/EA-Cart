@@ -4,6 +4,8 @@ namespace Cart.Core.Repositories
 {
     public interface IVoucherRepository
     {
-        Task<Voucher?> GetVoucherByCodeAsync(string voucherCode);
+        Task CreateAsync(Voucher voucher);
+        void Delete(Voucher voucher);
+        Task<Voucher?> GetByCodeAsync(string voucherCode);
     }
 }
