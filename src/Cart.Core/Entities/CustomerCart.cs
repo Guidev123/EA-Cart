@@ -7,6 +7,10 @@ namespace Cart.Core.Entities
         public CustomerCart(Guid customerId)
         {
             CustomerId = customerId;
+            TotalPrice = 0;
+            Itens = [];
+            VoucherIsUsed = false;
+            Discount = 0;
         }
         protected CustomerCart() { }
 

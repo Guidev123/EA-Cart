@@ -3,8 +3,7 @@ using Cart.Application.Services;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Item.Update;
 using Cart.Core.Entities;
-using Cart.Core.Repositories;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cart.API.Endpoints.ShoppingCart
 {
@@ -14,9 +13,9 @@ namespace Cart.API.Endpoints.ShoppingCart
             app.MapPut("/{productId:guid}", HandleAsync).Produces<Response<CustomerCart?>>();
 
         private static async Task<IResult> HandleAsync(Guid productId,
-                                                       UpdateCartItemRequest request,
-                                                       IUserService user,
-                                                       IUseCase<UpdateCartItemRequest, UpdateCartItemResponse> useCase)
+                                                       [FromServices] UpdateCartItemRequest request,
+                                                       [FromServices] IUserService user,
+                                                       [FromServices] IUseCase<UpdateCartItemRequest, UpdateCartItemResponse> useCase)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();

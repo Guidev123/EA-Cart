@@ -9,6 +9,7 @@ namespace Cart.API.Endpoints
             var endpoints = app.MapGroup("");
 
             endpoints.MapGroup("api/v1/cart")
+                .WithTags("Cart")
                 .MapEndpoint<AddItemEndpoint>()
                 .MapEndpoint<ApplyVoucherEndpoint>()
                 .MapEndpoint<RemoveItemEndpoint>()

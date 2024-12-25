@@ -4,6 +4,7 @@ using Cart.Application.UseCases;
 using Cart.Application.UseCases.Item.Remove;
 using Cart.Core.Entities;
 using Cart.Core.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Cart.API.Endpoints.ShoppingCart
@@ -14,9 +15,9 @@ namespace Cart.API.Endpoints.ShoppingCart
             app.MapDelete("/{productId:guid}", HandleAsync).Produces<Response<CustomerCart?>>();
 
         private static async Task<IResult> HandleAsync(Guid productId,
-                                                       IUserService user,
-                                                       ICartRepository cartRepository,
-                                                       IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse> useCase)
+                                                       [FromServices] IUserService user,
+                                                       [FromServices] ICartRepository cartRepository,
+                                                       [FromServices] IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse> useCase)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();

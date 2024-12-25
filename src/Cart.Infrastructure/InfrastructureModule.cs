@@ -4,6 +4,7 @@ using Cart.Infrastructure.Persistence;
 using Cart.Infrastructure.Persistence.Repositories;
 using Cart.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Cart.Infrastructure
 {
@@ -25,7 +26,9 @@ namespace Cart.Infrastructure
             services.AddScoped<IVoucherRepository, VoucherRepository>();
         }
 
-        public static void AddServices(this IServiceCollection services) =>
+        public static void AddServices(this IServiceCollection services)
+        {
             services.AddScoped<IUserService, UserService>();
+        }
     }
 }
