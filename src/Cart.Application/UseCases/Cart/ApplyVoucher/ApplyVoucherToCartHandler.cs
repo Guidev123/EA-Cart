@@ -19,6 +19,7 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
                 return new(null, 404, "Voucher not found");
 
             customerCart.ApplyVoucher(voucher);
+            _voucherRepository.Delete(voucher);
 
             _cartRepository.UpdateCart(customerCart);
 
