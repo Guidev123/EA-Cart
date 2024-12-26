@@ -1,6 +1,5 @@
 ﻿using Cart.Application.Response;
 using Cart.Application.UseCases;
-using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Application.UseCases.Voucher.Create;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +15,7 @@ namespace Cart.API.Endpoints.Voucher
         {
             var result = await useCase.HandleAsync(request);
             return result.IsSuccess
-                ? TypedResults.NoContent()
+                ? TypedResults.Created($"/{result.Data?.Id}", result)
                 : TypedResults.BadRequest(result);
         }
     }

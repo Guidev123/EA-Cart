@@ -12,7 +12,9 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class RemoveItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapDelete("/{productId:guid}", HandleAsync).Produces<Response<RemoveItemFromCartResponse?>>();
+            app.MapDelete("/{productId:guid}", HandleAsync)
+            .Produces<Response<RemoveItemFromCartResponse?>>()
+            .WithDescription("Remove the item and its units from the cart");
 
         private static async Task<IResult> HandleAsync(Guid productId,
                                                        [FromServices] IUserService user,
@@ -24,7 +26,7 @@ namespace Cart.API.Endpoints.ShoppingCart
 
             var result = await useCase.HandleAsync(new(productId, userId.Value));
             return result.IsSuccess
-                ? TypedResults.Ok(result)
+                ? TypedResults.Ok()
                 : TypedResults.BadRequest(result);
         }
     }

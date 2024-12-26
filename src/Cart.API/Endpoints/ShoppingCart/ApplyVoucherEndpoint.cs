@@ -2,7 +2,6 @@
 using Cart.Application.Services;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Cart.ApplyVoucher;
-using Cart.Core.Entities;
 using Cart.Core.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +10,9 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class ApplyVoucherEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPost("/apply-voucher/{code}", HandleAsync).Produces<Response<ApplyVoucherToCartResponse?>>();
+            app.MapPost("/apply-voucher/{code}", HandleAsync)
+            .Produces<Response<ApplyVoucherToCartResponse?>>()
+            .WithDescription("Adds a discount voucher to the cart based on the voucher code");
 
         private static async Task<IResult> HandleAsync([FromServices] IUserService user,
                                                        [FromServices] ICartRepository cartRepository,
@@ -24,7 +25,7 @@ namespace Cart.API.Endpoints.ShoppingCart
             var result = await useCase.HandleAsync(new(code, userId.Value));
 
             return result.IsSuccess
-                ? TypedResults.Ok(result)
+                ? TypedResults.Ok()
                 : TypedResults.BadRequest(result);
         }
 

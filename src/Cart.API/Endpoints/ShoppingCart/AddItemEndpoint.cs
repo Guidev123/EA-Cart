@@ -10,7 +10,9 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class AddItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPost("/", HandleAsync).Produces<Response<AddItemToCartResponse>>();
+            app.MapPost("/", HandleAsync)
+            .Produces<Response<AddItemToCartResponse>>()
+            .WithDescription(@"Responsible for adding products to the cart");
 
         private static async Task<IResult> HandleAsync([FromServices] IUserService user,
                                                        [FromServices] ICartRepository cartRepository,
