@@ -1,4 +1,5 @@
 ﻿using Cart.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Cart.Infrastructure.Persistence.Repositories
@@ -34,7 +35,31 @@ namespace Cart.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
+        public async Task<int> CompleteAsync()
+        {
+            const int maxRetryCount = 3;
+            for (int attempt = 1; attempt <= maxRetryCount; attempt++)
+            {
+                try
+                {
+                    return await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (attempt == maxRetryCount) throw;
+
+                    foreach (var entry in ex.Entries)
+                    {
+                        if (entry.Entity is not null)
+                        {
+                            await entry.ReloadAsync();
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
         public void Dispose()
         {
             _transaction?.Dispose();    

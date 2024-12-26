@@ -20,7 +20,8 @@ namespace Cart.Infrastructure.Persistence
             optionsBuilder
                 .UseSqlServer(_contextSettings.ConnectionString)
                 .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Information);
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

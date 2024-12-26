@@ -20,8 +20,6 @@ namespace Cart.Application.UseCases.Cart.AddItem
             if (customerCart is null)
                 return await HandleNewAsync(input.CustomerId.Value, cartItem);
 
-            var existentProduct = await _unitOfWork.Carts.CartItemAlreadyExists(cartItem.ProductId);
-
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
             if (!validationResult.IsValid)
@@ -29,13 +27,13 @@ namespace Cart.Application.UseCases.Cart.AddItem
 
             customerCart.AddItem(cartItem);
 
-            if (existentProduct) _unitOfWork.Carts.UpdateCartItem(cartItem);
+            if (await _unitOfWork.Carts.CartItemAlreadyExists(cartItem.ProductId))
+                _unitOfWork.Carts.UpdateCartItem(cartItem);
             else await _unitOfWork.Carts.AddCartItem(cartItem);
 
             _unitOfWork.Carts.UpdateCart(customerCart);
 
             await _unitOfWork.CompleteAsync();
-
             return await _unitOfWork.CommitAsync()
                 ? new(new AddItemToCartResponse(customerCart.Id), 201)
                 : new(null, 400, "Something has failed to save data");
