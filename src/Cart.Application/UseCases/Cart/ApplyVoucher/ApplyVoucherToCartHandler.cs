@@ -1,4 +1,5 @@
 ﻿using Cart.Application.Response;
+using Cart.Core.Enums;
 using Cart.Core.Repositories;
 using Cart.Core.ValueObjects;
 using SharedLib.Domain.Messages.Integration;
@@ -18,20 +19,25 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
             var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
             if (customerCart is null) return new(null, 404, "Cart not found");
 
-            ResponseMessage<Voucher> voucher;
+            ResponseMessage<AppliedVoucherResponse> voucherResponse;
             try
             {
-                voucher = await _bus.RequestAsync<AppliedVoucherIntegrationEvent, ResponseMessage<Voucher>>
+                voucherResponse = await _bus.RequestAsync<AppliedVoucherIntegrationEvent, ResponseMessage<AppliedVoucherResponse>>
                     (new AppliedVoucherIntegrationEvent(input.VoucherCode));
 
-                if (voucher.Data is null) return new(null, 404, "Voucher not found");
+                if (voucherResponse.Data is null) return new(null, 404, "Voucher not found");
             }
             catch
             {
                 return new(null, 400, "Fail to apply voucher");
             }
 
-            customerCart.ApplyVoucher(voucher.Data);
+            var voucher = new Voucher(voucherResponse.Data.Percentual,
+                                      voucherResponse.Data.DiscountValue,
+                                      voucherResponse.Data.Code,
+                                      (EDiscountType)voucherResponse.Data.DiscountType);
+
+            customerCart.ApplyVoucher(voucher);
 
             _unitOfWork.Carts.UpdateCart(customerCart);
             await _unitOfWork.CompleteAsync();
