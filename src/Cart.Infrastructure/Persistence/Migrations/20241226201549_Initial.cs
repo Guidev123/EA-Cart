@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Cart.Infrastructure.Migrations
+namespace Cart.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -12,24 +12,7 @@ namespace Cart.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Vouchers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Percentual = table.Column<decimal>(type: "MONEY", nullable: true),
-                    DiscountValue = table.Column<decimal>(type: "MONEY", nullable: true),
-                    Code = table.Column<string>(type: "VARCHAR(160)", nullable: false),
-                    DiscountType = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "DATETIME2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vouchers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomerCarts",
+                name: "Carts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -37,18 +20,15 @@ namespace Cart.Infrastructure.Migrations
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     VoucherIsUsed = table.Column<bool>(type: "bit", nullable: false),
                     Discount = table.Column<decimal>(type: "MONEY", nullable: false),
-                    VoucherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Percentual = table.Column<decimal>(type: "MONEY", nullable: true),
+                    DiscountValue = table.Column<decimal>(type: "MONEY", nullable: true),
+                    Code = table.Column<string>(type: "VARCHAR(160)", nullable: true),
+                    DiscountType = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "DATETIME2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerCarts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CustomerCarts_Vouchers_VoucherId",
-                        column: x => x.VoucherId,
-                        principalTable: "Vouchers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,9 +48,9 @@ namespace Cart.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CartItens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItens_CustomerCarts_CartId",
+                        name: "FK_CartItens_Carts_CartId",
                         column: x => x.CartId,
-                        principalTable: "CustomerCarts",
+                        principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,11 +59,6 @@ namespace Cart.Infrastructure.Migrations
                 name: "IX_CartItens_CartId",
                 table: "CartItens",
                 column: "CartId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomerCarts_VoucherId",
-                table: "CustomerCarts",
-                column: "VoucherId");
         }
 
         /// <inheritdoc />
@@ -93,10 +68,7 @@ namespace Cart.Infrastructure.Migrations
                 name: "CartItens");
 
             migrationBuilder.DropTable(
-                name: "CustomerCarts");
-
-            migrationBuilder.DropTable(
-                name: "Vouchers");
+                name: "Carts");
         }
     }
 }

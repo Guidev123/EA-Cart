@@ -8,20 +8,20 @@ namespace Cart.Infrastructure.Persistence.Repositories
     {
         private readonly CartDbContext _context = context;
         public async Task<CustomerCart?> GetByCustomerIdAsync(Guid id) =>
-            await _context.CustomerCarts.Include(x => x.Itens).FirstOrDefaultAsync(x => x.CustomerId == id);
+            await _context.Carts.Include(x => x.Itens).FirstOrDefaultAsync(x => x.CustomerId == id);
 
         public async Task CreateAsync(CustomerCart cart) =>
-            await _context.CustomerCarts.AddAsync(cart);
+            await _context.Carts.AddAsync(cart);
 
         public void UpdateCart(CustomerCart cart) =>
-            _context.CustomerCarts.Update(cart);
+            _context.Carts.Update(cart);
 
         public async Task AddCartItem(CartItem item) =>
             await _context.CartItems.AddAsync(item);
 
         public async Task DeleteWhenOrderFinished(CustomerCart cart)
         {
-            _context.CustomerCarts.Remove(cart);
+            _context.Carts.Remove(cart);
             await _context.SaveChangesAsync();
         }
 

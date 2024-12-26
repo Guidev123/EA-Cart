@@ -1,28 +1,13 @@
 ﻿using Cart.Core.Entities;
-using Cart.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Cart.Infrastructure.Persistence
 {
-    public class CartDbContext(DbContextOptions<CartDbContext> options,
-                               IOptions<ContextSettings> contextSettings)
+    public class CartDbContext(DbContextOptions<CartDbContext> options)
                              : DbContext(options)
     {
-        private readonly ContextSettings _contextSettings = contextSettings.Value;
-        public DbSet<CustomerCart> CustomerCarts { get; set; }
+        public DbSet<CustomerCart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Voucher> Vouchers { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder
-                .UseSqlServer(_contextSettings.ConnectionString)
-                .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableDetailedErrors();
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

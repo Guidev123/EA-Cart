@@ -1,5 +1,4 @@
 ﻿using Cart.API.Endpoints.ShoppingCart;
-using Cart.API.Endpoints.Voucher;
 
 namespace Cart.API.Endpoints
 {
@@ -16,11 +15,6 @@ namespace Cart.API.Endpoints
                 .MapEndpoint<ApplyVoucherEndpoint>()
                 .MapEndpoint<RemoveItemEndpoint>()
                 .MapEndpoint<UpdateItemEndpoint>();
-
-            endpoints.MapGroup("api/v1/vouchers")
-                .WithTags("Vouchers")
-                .RequireAuthorization()
-                .MapEndpoint<CreateVoucherEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

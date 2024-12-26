@@ -1,4 +1,5 @@
 ﻿using Cart.Core.DomainObjects;
+using Cart.Core.ValueObjects;
 
 namespace Cart.Core.Entities
 {
@@ -18,7 +19,6 @@ namespace Cart.Core.Entities
         public List<CartItem> Itens { get; private set; } = [];
         public bool VoucherIsUsed { get; private set; }
         public decimal Discount { get; private set; }
-        public Guid? VoucherId { get; private set; }
         public Voucher? Voucher { get; private set; }
         internal void CalculateTotalPrice()
         {
@@ -69,9 +69,7 @@ namespace Cart.Core.Entities
         public void ApplyVoucher(Voucher voucher)
         {
             Voucher = voucher;
-            VoucherId = voucher.Id;
             VoucherIsUsed = true;
-            voucher.DiscountQuantity();
             CalculateTotalPrice();
         }
 

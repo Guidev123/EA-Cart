@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cart.Infrastructure.Migrations
+namespace Cart.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20241225230845_Initial")]
+    [Migration("20241226201549_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -79,47 +79,12 @@ namespace Cart.Infrastructure.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("VoucherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("VoucherIsUsed")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VoucherId");
-
-                    b.ToTable("CustomerCarts", (string)null);
-                });
-
-            modelBuilder.Entity("Cart.Core.Entities.Voucher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(160)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("DATETIME2");
-
-                    b.Property<int>("DiscountType")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("DiscountValue")
-                        .HasColumnType("MONEY");
-
-                    b.Property<decimal?>("Percentual")
-                        .HasColumnType("MONEY");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vouchers", (string)null);
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("Cart.Core.Entities.CartItem", b =>
@@ -135,10 +100,35 @@ namespace Cart.Infrastructure.Migrations
 
             modelBuilder.Entity("Cart.Core.Entities.CustomerCart", b =>
                 {
-                    b.HasOne("Cart.Core.Entities.Voucher", "Voucher")
-                        .WithMany()
-                        .HasForeignKey("VoucherId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.OwnsOne("Cart.Core.ValueObjects.Voucher", "Voucher", b1 =>
+                        {
+                            b1.Property<Guid>("CustomerCartId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("VARCHAR(160)")
+                                .HasColumnName("Code");
+
+                            b1.Property<int>("DiscountType")
+                                .HasColumnType("int")
+                                .HasColumnName("DiscountType");
+
+                            b1.Property<decimal?>("DiscountValue")
+                                .HasColumnType("MONEY")
+                                .HasColumnName("DiscountValue");
+
+                            b1.Property<decimal?>("Percentual")
+                                .HasColumnType("MONEY")
+                                .HasColumnName("Percentual");
+
+                            b1.HasKey("CustomerCartId");
+
+                            b1.ToTable("Carts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CustomerCartId");
+                        });
 
                     b.Navigation("Voucher");
                 });
