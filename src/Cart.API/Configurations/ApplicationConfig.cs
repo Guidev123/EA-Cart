@@ -9,14 +9,12 @@ namespace Cart.API.Configurations
         public static void AddApplicationConfig(this WebApplicationBuilder builder)
         {
             RegisterContextSettings(builder);
-            builder.Services.AddApplication();
+            builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfra();
             builder.Services.AddHttpContextAccessor();
         }
 
         public static void RegisterContextSettings(this WebApplicationBuilder builder) =>
             builder.Services.Configure<ContextSettings>(builder.Configuration.GetSection(nameof(ContextSettings)));
-
-        
     }
 }

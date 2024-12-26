@@ -19,6 +19,12 @@ namespace Cart.Infrastructure.Persistence.Repositories
         public async Task AddCartItem(CartItem item) =>
             await _context.CartItems.AddAsync(item);
 
+        public async Task DeleteWhenOrderFinished(CustomerCart cart)
+        {
+            _context.CustomerCarts.Remove(cart);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> CartItemAlreadyExists(Guid itemId) =>
             await _context.CartItems.FromSqlInterpolated($"SELECT * FROM CartItens WHERE ProductId ={itemId}").AnyAsync();
 
