@@ -19,6 +19,18 @@ namespace Cart.Infrastructure.Persistence.Repositories
         public async Task BeginTransactionAsync() =>
             _transaction = await _context.Database.BeginTransactionAsync();
 
+        public bool HasActiveTransaction() => _transaction is not null;
+
+        public async Task RollbackTransactionAsync()
+        {
+            if (_transaction is not null)
+            {
+                await _transaction.RollbackAsync();
+                _transaction = null;
+            }
+        }
+
+
         public async Task<bool> CommitAsync()
         {
             if(_transaction is null) return false;

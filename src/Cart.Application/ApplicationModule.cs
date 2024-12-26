@@ -3,7 +3,6 @@ using Cart.Application.UseCases.Cart.ApplyVoucher;
 using Cart.Application.UseCases.Item.Remove;
 using Cart.Application.UseCases.Item.Update;
 using Cart.Application.UseCases.Voucher.Create;
-using Cart.Application.UseCases.Voucher.Remove;
 using Cart.Application.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,7 +25,6 @@ namespace Cart.Application
 
             // Voucher
             services.AddTransient<IUseCase<CreateVoucherRequest, CreateVoucherResponse>, CreateVoucherHandler>();
-            services.AddTransient<IUseCase<RemoveVoucherRequest, RemoveVoucherResponse>, RemoveVoucherHandler>();
         }
     }
 }

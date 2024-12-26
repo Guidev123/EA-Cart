@@ -13,16 +13,14 @@ namespace Cart.API.Endpoints.ShoppingCart
             app.MapPut("/{productId:guid}", HandleAsync).Produces<Response<UpdateCartItemResponse?>>();
 
         private static async Task<IResult> HandleAsync(Guid productId,
-                                                       [FromServices] UpdateCartItemRequest request,
+                                                       int quantity,
                                                        [FromServices] IUserService user,
                                                        [FromServices] IUseCase<UpdateCartItemRequest, UpdateCartItemResponse> useCase)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();
 
-            request.ProductId = productId;
-
-            var result = await useCase.HandleAsync(request);
+            var result = await useCase.HandleAsync(new(quantity, productId, userId.Value));
 
             return result.IsSuccess
                 ? TypedResults.Ok(result)

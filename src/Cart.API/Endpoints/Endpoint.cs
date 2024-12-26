@@ -20,8 +20,7 @@ namespace Cart.API.Endpoints
             endpoints.MapGroup("api/v1/vouchers")
                 .WithTags("Vouchers")
                 .RequireAuthorization()
-                .MapEndpoint<CreateVoucherEndpoint>()
-                .MapEndpoint<RemoveVoucherEndpoint>();
+                .MapEndpoint<CreateVoucherEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

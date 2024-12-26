@@ -16,10 +16,6 @@ namespace Cart.Infrastructure.Persistence.Repositories
         public void UpdateCart(CustomerCart cart) =>
             _context.CustomerCarts.Update(cart);
 
-        public void Remove(CustomerCart cart) =>
-            _context.CustomerCarts.Remove(cart);
-
-
         public async Task AddCartItem(CartItem item) =>
             await _context.CartItems.AddAsync(item);
 
