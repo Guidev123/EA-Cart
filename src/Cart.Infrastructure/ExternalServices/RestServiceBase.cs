@@ -1,4 +1,4 @@
-﻿using Cart.Application.Interfaces.Services;
+﻿using Cart.Application.Services.AuthServices;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

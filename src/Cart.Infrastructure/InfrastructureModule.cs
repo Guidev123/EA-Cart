@@ -1,5 +1,5 @@
-﻿using Cart.Application.Interfaces.ExternalServices;
-using Cart.Application.Interfaces.Services;
+﻿using Cart.Application.Services.AuthServices;
+using Cart.Application.Services.ExternalServices;
 using Cart.Core.Repositories;
 using Cart.Infrastructure.ExternalServices;
 using Cart.Infrastructure.Persistence.Repositories;

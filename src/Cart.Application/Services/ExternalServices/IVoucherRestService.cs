@@ -1,7 +1,7 @@
 ﻿using Cart.Application.Response;
 using Cart.Core.ValueObjects;
 
-namespace Cart.Application.Interfaces.ExternalServices
+namespace Cart.Application.Services.ExternalServices
 {
     public interface IVoucherRestService
     {

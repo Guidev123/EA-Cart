@@ -1,6 +1,8 @@
-﻿using Cart.Application.Interfaces.ExternalServices;
-using Cart.Application.Interfaces.Services;
+﻿using Cart.Application.DTOs;
+using Cart.Application.Mappers;
 using Cart.Application.Response;
+using Cart.Application.Services.AuthServices;
+using Cart.Application.Services.ExternalServices;
 using Cart.Core.ValueObjects;
 
 namespace Cart.Infrastructure.ExternalServices
@@ -24,8 +26,11 @@ namespace Cart.Infrastructure.ExternalServices
                 return new(null, 500, $"Request failed: {ex.Message}");
             }
 
-            var response = await DeserializeResponse<Voucher>(httpResponseMessage).ConfigureAwait(false);
-            return new(response, 200);
+            var response = await DeserializeResponse<ApiResponseDTO<VoucherDTO>>(httpResponseMessage).ConfigureAwait(false);
+            if (response is null || response.Data is null)
+                return new(null, 404, "Voucher not found");
+
+            return new(response.Data.MapFromResponseToVoucher(), 200);
         }
     }
 }

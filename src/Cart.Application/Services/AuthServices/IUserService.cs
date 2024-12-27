@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Cart.Application.Interfaces.Services
+namespace Cart.Application.Services.AuthServices
 {
     public interface IUserService
     {

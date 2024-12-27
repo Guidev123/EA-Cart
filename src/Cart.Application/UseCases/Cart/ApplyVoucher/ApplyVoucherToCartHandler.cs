@@ -1,5 +1,5 @@
-﻿using Cart.Application.Interfaces.ExternalServices;
-using Cart.Application.Response;
+﻿using Cart.Application.Response;
+using Cart.Application.Services.ExternalServices;
 using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Cart.ApplyVoucher
@@ -12,10 +12,12 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
         public async Task<Response<ApplyVoucherToCartResponse>> HandleAsync(ApplyVoucherToCartRequest input)
         {
             var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
-            if (customerCart is null) return new(null, 404, "Cart not found");
+            if (customerCart is null)
+                return new(null, 404, "Cart not found");
 
             var voucherResult = await _voucherRestService.GetVoucherByCodeAsync(input.VoucherCode);
-            if(voucherResult.Data is null || !voucherResult.IsSuccess) return new(null, voucherResult.Code, voucherResult.Message);
+            if(voucherResult.Data is null || !voucherResult.IsSuccess)
+                return new(null, voucherResult.Code, voucherResult.Message);
 
             customerCart.ApplyVoucher(voucherResult.Data);
 

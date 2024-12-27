@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Cart.Application.Interfaces.Services;
+using Cart.Application.Services.AuthServices;
 
 namespace Cart.Infrastructure.Services
 {
