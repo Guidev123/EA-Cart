@@ -15,10 +15,7 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
             if (customerCart is null) return new(null, 404, "Cart not found");
 
             var voucherResult = await _voucherRestService.GetVoucherByCodeAsync(input.VoucherCode);
-            if(voucherResult.Data is null || !voucherResult.IsSuccess)
-            {
-                return new(null, 404);
-            }
+            if(voucherResult.Data is null || !voucherResult.IsSuccess) return new(null, 404, "Voucher not found");
 
             customerCart.ApplyVoucher(voucherResult.Data);
 

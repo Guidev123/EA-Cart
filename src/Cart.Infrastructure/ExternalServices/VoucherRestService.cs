@@ -16,9 +16,10 @@ namespace Cart.Infrastructure.ExternalServices
         public VoucherRestService(HttpClient httpClient, IOptions<VoucherRestServiceConfig> settings, IUserService userService)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(settings.Value.Uri);
             _userService = userService;
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _userService.GetUsetToken());
+            var token = _userService.GetToken()![7..];
+            _httpClient.BaseAddress = new Uri(settings.Value.Uri);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         public async Task<Response<Voucher>> GetVoucherByCodeAsync(string code)

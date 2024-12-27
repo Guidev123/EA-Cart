@@ -7,6 +7,13 @@ namespace Cart.Infrastructure.Services
     public sealed class UserService(IHttpContextAccessor httpContextAccessor) : IUserService
     {
         private readonly ClaimsPrincipal _claims = httpContextAccessor.HttpContext!.User;
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+
+        public HttpContext GetHttpContext() => _httpContextAccessor.HttpContext;
+
+        public string? GetToken() =>
+            GetHttpContext().Request.Headers["Authorization"];
+
         public Task<Guid?> GetUserIdAsync()
         {
             var userIdClaim = _claims?.FindFirst("sub")?.Value ?? _claims?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -17,7 +24,5 @@ namespace Cart.Infrastructure.Services
             return Task.FromResult<Guid?>(null);
         }
 
-        public string GetUsetToken() =>
-            _claims.FindFirst("JWT")?.Value ?? string.Empty;
     }
 }

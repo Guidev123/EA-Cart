@@ -11,6 +11,7 @@ namespace Cart.API.Configurations
         public static void AddApplicationConfig(this WebApplicationBuilder builder)
         {
             AddContextDependencyInjection(builder);
+            RegisterExtensions(builder);
             builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfra();
             builder.Services.AddHttpContextAccessor();
@@ -27,7 +28,7 @@ namespace Cart.API.Configurations
 
         public static void RegisterExtensions(this WebApplicationBuilder builder)
         {
-            builder.Services.Configure<VoucherRestServiceConfig>(builder.Configuration.GetSection(nameof(VoucherRestServiceConfig)));
+            builder.Services.Configure<VoucherRestServiceConfig>(builder.Configuration.GetSection("VoucherRestServiceConfig"));
         }
     }
 }
