@@ -1,5 +1,6 @@
 ﻿using Cart.Application;
 using Cart.Infrastructure;
+using Cart.Infrastructure.ExternalServices.Configurations;
 using Cart.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,10 @@ namespace Cart.API.Configurations
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableDetailedErrors();
         });
+
+        public static void RegisterExtensions(this WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<VoucherRestServiceConfig>(builder.Configuration.GetSection(nameof(VoucherRestServiceConfig)));
+        }
     }
 }

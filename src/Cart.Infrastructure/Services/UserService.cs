@@ -16,5 +16,8 @@ namespace Cart.Infrastructure.Services
 
             return Task.FromResult<Guid?>(null);
         }
+
+        public string GetUsetToken() =>
+            _claims.FindFirst("JWT")?.Value ?? string.Empty;
     }
 }

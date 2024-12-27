@@ -3,5 +3,6 @@
     public interface IUserService
     {
         Task<Guid?> GetUserIdAsync();
+        string GetUsetToken();
     }
 }
