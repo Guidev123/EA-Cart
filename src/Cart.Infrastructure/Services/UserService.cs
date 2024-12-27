@@ -1,6 +1,6 @@
-﻿using Cart.Application.Services;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Cart.Application.Interfaces.Services;
 
 namespace Cart.Infrastructure.Services
 {
@@ -11,8 +11,16 @@ namespace Cart.Infrastructure.Services
 
         public HttpContext GetHttpContext() => _httpContextAccessor.HttpContext;
 
-        public string? GetToken() =>
-            GetHttpContext().Request.Headers["Authorization"];
+        public string GetToken()
+        {
+            var authorizationHeader = GetHttpContext().Request.Headers["Authorization"].ToString();
+
+            if (authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                return authorizationHeader["Bearer ".Length..].Trim();
+
+            return string.Empty;
+        }
+
 
         public Task<Guid?> GetUserIdAsync()
         {

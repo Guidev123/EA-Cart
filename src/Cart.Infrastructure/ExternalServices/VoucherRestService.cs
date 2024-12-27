@@ -1,47 +1,31 @@
-﻿using Cart.Application.Response;
-using Cart.Application.Services;
+﻿using Cart.Application.Interfaces.ExternalServices;
+using Cart.Application.Interfaces.Services;
+using Cart.Application.Response;
 using Cart.Core.ValueObjects;
-using Cart.Infrastructure.ExternalServices.Configurations;
-using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace Cart.Infrastructure.ExternalServices
 {
-    public class VoucherRestService : IVoucherRestService
+    public class VoucherRestService(HttpClient httpClient, IUserService userService)
+               : RestServiceBase(httpClient, userService), IVoucherRestService
     {
-        private readonly HttpClient _httpClient;
-        private readonly IUserService _userService;
-
-        public VoucherRestService(HttpClient httpClient, IOptions<VoucherRestServiceConfig> settings, IUserService userService)
-        {
-            _httpClient = httpClient;
-            _userService = userService;
-            var token = _userService.GetToken()![7..];
-            _httpClient.BaseAddress = new Uri(settings.Value.Uri);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
         public async Task<Response<Voucher>> GetVoucherByCodeAsync(string code)
         {
-            var httpResponseMessage = await _httpClient.GetAsync($"/vouchers/{code}");
+            var isAuthorized = SetAuthorizationHeaders();
+            if (!isAuthorized) return new(null, 401, "Authentication failed: token is missing or invalid.");
 
-            httpResponseMessage.EnsureSuccessStatusCode();
-
-            var response = await DeserializeResponse<Voucher>(httpResponseMessage);
-
-            return new Response<Voucher>(response, 200);
-        }
-
-        private static async Task<T?> DeserializeResponse<T>(HttpResponseMessage responseMessage)
-        {
-            var options = new JsonSerializerOptions
+            HttpResponseMessage httpResponseMessage;
+            try
             {
-                PropertyNameCaseInsensitive = true
-            };
+                httpResponseMessage = await _httpClient.GetAsync($"/vouchers/{code}").ConfigureAwait(false);
+                httpResponseMessage.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new(null, 500, $"Request failed: {ex.Message}");
+            }
 
-            var content = await responseMessage.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content, options);
+            var response = await DeserializeResponse<Voucher>(httpResponseMessage).ConfigureAwait(false);
+            return new(response, 200);
         }
     }
 }

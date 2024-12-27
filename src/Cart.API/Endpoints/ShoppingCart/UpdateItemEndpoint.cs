@@ -1,5 +1,5 @@
-﻿using Cart.Application.Response;
-using Cart.Application.Services;
+﻿using Cart.Application.Interfaces.Services;
+using Cart.Application.Response;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Item.Update;
 using Cart.Core.Entities;
