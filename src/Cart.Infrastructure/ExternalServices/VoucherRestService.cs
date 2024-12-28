@@ -4,12 +4,15 @@ using Cart.Application.Response;
 using Cart.Application.Services.AuthServices;
 using Cart.Application.Services.ExternalServices;
 using Cart.Core.ValueObjects;
+using Cart.Infrastructure.ExternalServices.Configurations;
+using Microsoft.Extensions.Options;
 
 namespace Cart.Infrastructure.ExternalServices
 {
-    public class VoucherRestService(HttpClient httpClient, IUserService userService)
+    public class VoucherRestService(HttpClient httpClient, IUserService userService, IOptions<VoucherRestServiceConfig> settings)
                : RestServiceBase(httpClient, userService), IVoucherRestService
     {
+        private VoucherRestServiceConfig _settings = settings.Value;
         public async Task<Response<Voucher>> GetVoucherByCodeAsync(string code)
         {
             var isAuthorized = SetAuthorizationHeaders();
@@ -18,7 +21,7 @@ namespace Cart.Infrastructure.ExternalServices
             HttpResponseMessage httpResponseMessage;
             try
             {
-                httpResponseMessage = await _httpClient.GetAsync($"/vouchers/{code}").ConfigureAwait(false);
+                httpResponseMessage = await _httpClient.GetAsync($"{_settings.Uri}/vouchers/{code}").ConfigureAwait(false);
                 httpResponseMessage.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException ex)
