@@ -1,7 +1,7 @@
-﻿using Cart.Core.Repositories;
+﻿using Cart.Application.Events;
+using Cart.Core.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SharedLib.Domain.Messages.Integration.OrderPlaced;
 using SharedLib.MessageBus;
 
 namespace Cart.Application.BackgroundServices
@@ -12,7 +12,7 @@ namespace Cart.Application.BackgroundServices
         private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         private void SetSubscribers() =>
-            _bus.SubscribeAsync<OrderPlacedIntegrationEvent>("OrderPlaced", DeleteCart);
+            _bus.SubscribeAsync<OrderPlacedIntegrationEvent>("OrderPlacedIntegrationEvent", DeleteCart);
 
         private async Task DeleteCart(OrderPlacedIntegrationEvent integrationEvent)
         {
