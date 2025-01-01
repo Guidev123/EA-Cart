@@ -7,7 +7,7 @@ using FluentValidation.Results;
 
 namespace Cart.Application.UseCases.Cart.AddItem
 {
-    public class AddItemToCartHandler(IUnitOfWork unitOfWork)
+    public sealed class AddItemToCartHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<AddItemToCartRequest, AddItemToCartResponse>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

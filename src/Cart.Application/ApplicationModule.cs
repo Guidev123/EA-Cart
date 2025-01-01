@@ -2,6 +2,7 @@
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Application.UseCases.Cart.ApplyVoucher;
+using Cart.Application.UseCases.Cart.GetByCustomerId;
 using Cart.Application.UseCases.Item.Remove;
 using Cart.Application.UseCases.Item.Update;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ namespace Cart.Application
 
             services.AddTransient<IUseCase<ApplyVoucherToCartRequest, ApplyVoucherToCartResponse>, ApplyVoucherToCartHandler>();
             services.AddTransient<IUseCase<AddItemToCartRequest, AddItemToCartResponse>, AddItemToCartHandler>();
+            services.AddTransient<IUseCase<GetByCustomerIdRequest, GetByCustomerIdResponse>, GetByCustomerIdHandler>();
         }
 
         public static void RegisterBackgroundService(this IServiceCollection services, IConfiguration configuration)

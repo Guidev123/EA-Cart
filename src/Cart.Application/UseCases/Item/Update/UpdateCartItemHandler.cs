@@ -1,12 +1,10 @@
 ﻿using Cart.Application.Response;
-using Cart.Core.Entities;
 using Cart.Core.Repositories;
-using Cart.Core.Validators;
 using FluentValidation.Results;
 
 namespace Cart.Application.UseCases.Item.Update
 {
-    public class UpdateCartItemHandler(IUnitOfWork unitOfWork)
+    public sealed class UpdateCartItemHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<UpdateCartItemRequest, UpdateCartItemResponse>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

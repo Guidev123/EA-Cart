@@ -4,7 +4,7 @@ using FluentValidation.Results;
 
 namespace Cart.Application.UseCases.Item.Remove
 {
-    public class RemoveItemFromCartHandler(IUnitOfWork unitOfWork)
+    public sealed class RemoveItemFromCartHandler(IUnitOfWork unitOfWork)
                : Handler, IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

@@ -4,7 +4,7 @@ using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Cart.ApplyVoucher
 {
-    public class ApplyVoucherToCartHandler(IUnitOfWork unitOfWork, IVoucherRestService voucherRestService)
+    public sealed class ApplyVoucherToCartHandler(IUnitOfWork unitOfWork, IVoucherRestService voucherRestService)
                : Handler, IUseCase<ApplyVoucherToCartRequest, ApplyVoucherToCartResponse>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

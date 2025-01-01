@@ -11,6 +11,7 @@ namespace Cart.API.Endpoints
             endpoints.MapGroup("api/v1/carts")
                 .WithTags("Carts")
                 .RequireAuthorization()
+                .MapEndpoint<GetByCustomerIdEndpoint>()
                 .MapEndpoint<AddItemEndpoint>()
                 .MapEndpoint<ApplyVoucherEndpoint>()
                 .MapEndpoint<RemoveItemEndpoint>()
