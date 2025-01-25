@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedLib\src\SharedLib.Tokens\SharedLib.Tokens.csproj" />
     <ProjectReference Include="..\Cart.Application\Cart.Application.csproj" />
     <ProjectReference Include="..\Cart.Infrastructure\Cart.Infrastructure.csproj" />
   </ItemGroup>
