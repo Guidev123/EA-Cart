@@ -11,9 +11,9 @@ namespace Cart.Application.UseCases.Cart.GetByCustomerId
         public async Task<Response<GetByCustomerIdResponse>> HandleAsync(GetByCustomerIdRequest input)
         {
             var cart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
-            if (cart is null) return new(false, 404, null, "Cart not found");
+            if (cart is null) return new(null, 404, "Cart not found");
 
-            return new(true, 200, cart.MapToResponse());
+            return new(cart.MapToResponse(), 200);
         }
     }
 }

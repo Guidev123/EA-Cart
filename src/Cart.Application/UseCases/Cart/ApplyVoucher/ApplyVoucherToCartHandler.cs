@@ -13,18 +13,18 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
         {
             var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
             if (customerCart is null)
-                return new(false, 404, null, "Cart not found");
+                return new(null, 404, "Cart not found");
 
             var voucherResult = await _voucherRestService.GetVoucherByCodeAsync(input.VoucherCode);
             if(voucherResult.Data is null || !voucherResult.IsSuccess)
-                return new(voucherResult.IsSuccess, voucherResult.Code, null, voucherResult.Message);
+                return new(null, voucherResult.statusCode, voucherResult.Message);
 
             customerCart.ApplyVoucher(voucherResult.Data);
 
             _unitOfWork.Carts.UpdateCart(customerCart);
             await _unitOfWork.CompleteAsync();
 
-            return new(true, 204, null);
+            return new(null, 204);
         }
     }
 }

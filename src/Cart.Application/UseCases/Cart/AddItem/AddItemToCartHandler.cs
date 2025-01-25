@@ -26,7 +26,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
                 var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
                 if (!validationResult.IsValid)
-                    return new(false, 400, null, "Error", GetAllErrors(validationResult));
+                    return new(null, 400, "Error");
 
                 customerCart.AddItem(cartItem);
 
@@ -45,8 +45,8 @@ namespace Cart.Application.UseCases.Cart.AddItem
                 await _unitOfWork.CompleteAsync();
 
                 return await _unitOfWork.CommitAsync()
-                    ? new(true, 201, new AddItemToCartResponse(customerCart.Id))
-                    : new(false, 400, null, "Something has failed to persist data");
+                    ? new(new AddItemToCartResponse(customerCart.Id), 201)
+                    : new(null, 400, "Something has failed to persist data");
             }
             catch(Exception ex)
             {
@@ -56,7 +56,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
                 var validationResult = new ValidationResult();
                 AddError(validationResult, ex.Message);
 
-                return new(false, 500, null, "Something has failed to persist data", GetAllErrors(validationResult));
+                return new(null, 500, "Something has failed to persist data");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
         {
             var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
-            if (!validationResult.IsValid) return new(false, 400, null, "Error", GetAllErrors(validationResult));
+            if (!validationResult.IsValid) return new(null, 400, "Error");
 
             var customerCart = new CustomerCart(customerId);
 
@@ -73,8 +73,8 @@ namespace Cart.Application.UseCases.Cart.AddItem
             await _unitOfWork.CompleteAsync();
 
             return await _unitOfWork.CommitAsync()
-                ? new(true, 201, new AddItemToCartResponse(customerCart.Id))
-                : new(false, 400, null, "Something has failed to save data");
+                ? new(new AddItemToCartResponse(customerCart.Id), 201)
+                : new(null, 400, "Something has failed to save data");
         }
     }
 }
