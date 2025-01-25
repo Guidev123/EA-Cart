@@ -16,7 +16,7 @@ namespace Cart.Infrastructure.ExternalServices
         public async Task<Response<Voucher>> GetVoucherByCodeAsync(string code)
         {
             var isAuthorized = SetAuthorizationHeaders();
-            if (!isAuthorized) return new(null, 401, "Authentication failed: token is missing or invalid.");
+            if (!isAuthorized) return new(false, 401, null, "Authentication failed: token is missing or invalid.");
 
             HttpResponseMessage httpResponseMessage;
             try
@@ -26,14 +26,14 @@ namespace Cart.Infrastructure.ExternalServices
             }
             catch (HttpRequestException ex)
             {
-                return new(null, 500, $"Request failed: {ex.Message}");
+                return new(false, 500, null, $"Request failed: {ex.Message}");
             }
 
             var response = await DeserializeResponse<ApiResponseDTO<VoucherDTO>>(httpResponseMessage).ConfigureAwait(false);
             if (response is null || response.Data is null)
-                return new(null, 404, "Voucher not found");
+                return new(false, 404, null, "Voucher not found");
 
-            return new(response.Data.MapFromResponseToVoucher(), 200);
+            return new(true, 200, response.Data.MapFromResponseToVoucher());
         }
     }
 }

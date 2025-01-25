@@ -13,10 +13,10 @@ namespace Cart.Application.UseCases.Item.Update
             try
             {
                 var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
-                if (customerCart is null) return new(null, 404, "Cart not found");
+                if (customerCart is null) return new(false, 404, null, "Cart not found");
 
                 var item = customerCart.Itens.FirstOrDefault(x => x.ProductId == input.ProductId);
-                if (item is null) return new(null, 404, "Item not found");
+                if (item is null) return new(false, 404, null, "Item not found");
 
                 customerCart.UpdateUnities(item, input.Quantity);
 
@@ -29,8 +29,8 @@ namespace Cart.Application.UseCases.Item.Update
                 await _unitOfWork.CompleteAsync();
 
                 return await _unitOfWork.CommitAsync()
-                                ? new(null, 204)
-                                : new(null, 400, "Something has failed to save data");
+                                ? new(true, 204, null)
+                                : new(false, 400, null, "Something has failed to save data");
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace Cart.Application.UseCases.Item.Update
                 var validationResult = new ValidationResult();
                 AddError(validationResult, ex.Message);
 
-                return new(null, 500, "Something has failed to persist data", GetAllErrors(validationResult));
+                return new(false, 500, null, "Something has failed to persist data", GetAllErrors(validationResult));
             }
         }
     }
