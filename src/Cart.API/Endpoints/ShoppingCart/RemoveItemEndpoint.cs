@@ -2,10 +2,7 @@
 using Cart.Application.Services.AuthServices;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Item.Remove;
-using Cart.Core.Entities;
 using Cart.Core.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Cart.API.Endpoints.ShoppingCart
 {
@@ -17,9 +14,9 @@ namespace Cart.API.Endpoints.ShoppingCart
             .WithDescription("Remove the item and its units from the cart");
 
         private static async Task<IResult> HandleAsync(Guid productId,
-                                                       [FromServices] IUserService user,
-                                                       [FromServices] ICartRepository cartRepository,
-                                                       [FromServices] IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse> useCase)
+                                                       IUserService user,
+                                                       ICartRepository cartRepository,
+                                                       IUseCase<RemoveItemFromCartRequest, RemoveItemFromCartResponse> useCase)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();

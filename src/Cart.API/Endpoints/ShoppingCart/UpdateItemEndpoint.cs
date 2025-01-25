@@ -10,14 +10,14 @@ namespace Cart.API.Endpoints.ShoppingCart
     public class UpdateItemEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) =>
-            app.MapPut("/{productId:guid}", HandleAsync)
+            app.MapPut("/{productId:guid}/{quantity:int}", HandleAsync)
             .Produces<Response<UpdateCartItemResponse?>>()
             .WithDescription("Update units of an item within the cart");
 
         private static async Task<IResult> HandleAsync(Guid productId,
                                                        int quantity,
-                                                       [FromServices] IUserService user,
-                                                       [FromServices] IUseCase<UpdateCartItemRequest, UpdateCartItemResponse> useCase)
+                                                       IUserService user,
+                                                       IUseCase<UpdateCartItemRequest, UpdateCartItemResponse> useCase)
         {
             var userId = await user.GetUserIdAsync();
             if (userId is null) return TypedResults.BadRequest();

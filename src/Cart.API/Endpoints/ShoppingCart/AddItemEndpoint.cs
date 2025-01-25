@@ -3,7 +3,6 @@ using Cart.Application.Services.AuthServices;
 using Cart.Application.UseCases;
 using Cart.Application.UseCases.Cart.AddItem;
 using Cart.Core.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Cart.API.Endpoints.ShoppingCart
 {
@@ -14,9 +13,9 @@ namespace Cart.API.Endpoints.ShoppingCart
             .Produces<Response<AddItemToCartResponse>>()
             .WithDescription(@"Responsible for adding products to the cart");
 
-        private static async Task<IResult> HandleAsync([FromServices] IUserService user,
-                                                       [FromServices] ICartRepository cartRepository,
-                                                       [FromServices] IUseCase<AddItemToCartRequest, AddItemToCartResponse> useCase,
+        private static async Task<IResult> HandleAsync(IUserService user,
+                                                       ICartRepository cartRepository,
+                                                       IUseCase<AddItemToCartRequest, AddItemToCartResponse> useCase,
                                                        AddItemToCartRequest request)
         {
             var userId = await user.GetUserIdAsync();

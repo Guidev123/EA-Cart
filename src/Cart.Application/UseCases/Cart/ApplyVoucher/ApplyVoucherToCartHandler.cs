@@ -1,17 +1,24 @@
 ﻿using Cart.Application.Response;
+using Cart.Application.Services.AuthServices;
 using Cart.Application.Services.ExternalServices;
 using Cart.Core.Repositories;
 
 namespace Cart.Application.UseCases.Cart.ApplyVoucher
 {
-    public sealed class ApplyVoucherToCartHandler(IUnitOfWork unitOfWork, IVoucherRestService voucherRestService)
+    public sealed class ApplyVoucherToCartHandler(IUnitOfWork unitOfWork,
+                                                  IVoucherRestService voucherRestService,
+                                                  IUserService userService)
                : Handler, IUseCase<ApplyVoucherToCartRequest, ApplyVoucherToCartResponse>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IUserService _userService = userService;
         private readonly IVoucherRestService _voucherRestService = voucherRestService;
         public async Task<Response<ApplyVoucherToCartResponse>> HandleAsync(ApplyVoucherToCartRequest input)
         {
-            var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
+            var userId = await _userService.GetUserIdAsync();
+            if (userId is null) return new(null, 404);
+
+            var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(userId.Value);
             if (customerCart is null)
                 return new(null, 404, "Cart not found");
 
