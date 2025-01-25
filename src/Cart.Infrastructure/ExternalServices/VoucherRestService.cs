@@ -12,7 +12,7 @@ namespace Cart.Infrastructure.ExternalServices
     public class VoucherRestService(HttpClient httpClient, IUserService userService, IOptions<VoucherRestServiceConfig> settings)
                : RestServiceBase(httpClient, userService), IVoucherRestService
     {
-        private VoucherRestServiceConfig _settings = settings.Value;
+        private readonly VoucherRestServiceConfig _settings = settings.Value;
         public async Task<Response<Voucher>> GetVoucherByCodeAsync(string code)
         {
             var isAuthorized = SetAuthorizationHeaders();
