@@ -8,7 +8,7 @@ namespace Cart.Infrastructure.Persistence.Repositories
     {
         private readonly CartDbContext _context = context;
         public async Task<CustomerCart?> GetByCustomerIdAsync(Guid id) =>
-            await _context.Carts.Include(x => x.Itens).FirstOrDefaultAsync(x => x.CustomerId == id);
+            await _context.Carts.Include(x => x.Items).FirstOrDefaultAsync(x => x.CustomerId == id);
 
         public async Task CreateAsync(CustomerCart cart) =>
             await _context.Carts.AddAsync(cart);

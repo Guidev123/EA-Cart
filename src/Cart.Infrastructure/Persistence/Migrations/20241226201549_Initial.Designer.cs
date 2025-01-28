@@ -90,7 +90,7 @@ namespace Cart.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Cart.Core.Entities.CartItem", b =>
                 {
                     b.HasOne("Cart.Core.Entities.CustomerCart", "CustomerCart")
-                        .WithMany("Itens")
+                        .WithMany("Items")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -135,7 +135,7 @@ namespace Cart.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Cart.Core.Entities.CustomerCart", b =>
                 {
-                    b.Navigation("Itens");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

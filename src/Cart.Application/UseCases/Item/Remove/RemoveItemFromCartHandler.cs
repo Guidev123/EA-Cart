@@ -15,7 +15,7 @@ namespace Cart.Application.UseCases.Item.Remove
                 var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
                 if (customerCart is null) return new(null, 404, "Cart not found");
 
-                var cartItem = customerCart.Itens.FirstOrDefault(x => x.ProductId == input.ProductId);
+                var cartItem = customerCart.Items.FirstOrDefault(x => x.ProductId == input.ProductId);
                 if (cartItem is null) return new(null, 404, "Item not found");
 
                 customerCart.RemoveItem(cartItem);
