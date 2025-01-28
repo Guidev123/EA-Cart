@@ -4,19 +4,16 @@ using Cart.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cart.Infrastructure.Persistence.Migrations
+namespace Cart.Infrastructure.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20241226201549_Initial")]
-    partial class Initial
+    partial class CartDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +55,7 @@ namespace Cart.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartItens", (string)null);
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("Cart.Core.Entities.CustomerCart", b =>

@@ -8,7 +8,7 @@ namespace Cart.Infrastructure.Persistence.Mappings
     {
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
-            builder.ToTable("CartItens");
+            builder.ToTable("CartItems");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.ProductId).HasColumnType("uniqueidentifier").IsRequired();
