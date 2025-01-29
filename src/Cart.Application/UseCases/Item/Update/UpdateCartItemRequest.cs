@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Cart.Application.UseCases.Item.Update
+﻿namespace Cart.Application.UseCases.Item.Update
 {
     public class UpdateCartItemRequest
     {
