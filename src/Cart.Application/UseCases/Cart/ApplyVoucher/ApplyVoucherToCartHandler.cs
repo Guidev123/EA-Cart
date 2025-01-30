@@ -24,7 +24,7 @@ namespace Cart.Application.UseCases.Cart.ApplyVoucher
 
             var voucherResult = await _voucherRestService.GetVoucherByCodeAsync(input.VoucherCode);
             if(voucherResult.Data is null || !voucherResult.IsSuccess)
-                return new(null, voucherResult.statusCode, voucherResult.Message);
+                return new(null, voucherResult.StatusCode, voucherResult.Message);
 
             customerCart.ApplyVoucher(voucherResult.Data);
 
