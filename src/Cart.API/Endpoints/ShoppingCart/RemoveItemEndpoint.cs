@@ -23,7 +23,7 @@ namespace Cart.API.Endpoints.ShoppingCart
 
             var result = await useCase.HandleAsync(new(productId, userId.Value));
             return result.IsSuccess
-                ? TypedResults.Ok()
+                ? TypedResults.NoContent()
                 : TypedResults.BadRequest(result);
         }
     }

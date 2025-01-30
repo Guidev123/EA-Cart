@@ -16,17 +16,17 @@ namespace Cart.Core.Entities
 
         public Guid CustomerId { get; private set; }
         public decimal TotalPrice { get; private set; }
-        public List<CartItem> Items { get; private set; } = [];
+        public List<CartItem> CartItems { get; private set; } = [];
         public bool VoucherIsUsed { get; private set; }
         public decimal Discount { get; private set; }
         public Voucher? Voucher { get; private set; }
         internal void CalculateTotalPrice()
         {
-            TotalPrice = Items.Sum(x => x.CalculateValue());
+            TotalPrice = CartItems.Sum(x => x.CalculateValue());
             CalculateTotalPriceDiscount();
         }
-        internal CartItem GetProductById(Guid productId) => Items.First(x => x.ProductId == productId);
-        internal bool ItemCartAlreadyExists(CartItem item) => Items.Any(x => x.ProductId == item.ProductId);
+        internal CartItem GetProductById(Guid productId) => CartItems.First(x => x.ProductId == productId);
+        internal bool ItemCartAlreadyExists(CartItem item) => CartItems.Any(x => x.ProductId == item.ProductId);
         public void AddItem(CartItem item)
         {
             item.AssociateCart(Id);
@@ -36,10 +36,10 @@ namespace Cart.Core.Entities
                 var itemExists = GetProductById(item.ProductId);
                 itemExists.AddUnity(item.Quantity);
                 item = itemExists;
-                Items.Remove(itemExists);
+                CartItems.Remove(itemExists);
             }
 
-            Items.Add(item);
+            CartItems.Add(item);
             CalculateTotalPrice();
         }
         public void UpdateItem(CartItem item)
@@ -48,15 +48,15 @@ namespace Cart.Core.Entities
 
             var existentItem = GetProductById(item.ProductId);
 
-            Items.Remove(existentItem);
-            Items.Add(item);
+            CartItems.Remove(existentItem);
+            CartItems.Add(item);
 
             CalculateTotalPrice();
         }
 
         public void RemoveItem(CartItem item)
         {
-            Items.Remove(GetProductById(item.ProductId));
+            CartItems.Remove(GetProductById(item.ProductId));
             CalculateTotalPrice();
         }
 

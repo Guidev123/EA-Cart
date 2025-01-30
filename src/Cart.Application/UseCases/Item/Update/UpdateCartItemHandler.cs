@@ -15,7 +15,7 @@ namespace Cart.Application.UseCases.Item.Update
                 var customerCart = await _unitOfWork.Carts.GetByCustomerIdAsync(input.CustomerId);
                 if (customerCart is null) return new(null, 404, "Cart not found");
 
-                var item = customerCart.Items.FirstOrDefault(x => x.ProductId == input.ProductId);
+                var item = customerCart.CartItems.FirstOrDefault(x => x.ProductId == input.ProductId);
                 if (item is null) return new(null, 404, "Item not found");
 
                 customerCart.UpdateUnities(item, input.Quantity);

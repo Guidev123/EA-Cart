@@ -26,7 +26,7 @@ namespace Cart.Application.UseCases.Cart.AddItem
                 var validationResult = ValidateEntity(new CartItemValidator(), cartItem);
 
                 if (!validationResult.IsValid)
-                    return new(null, 400, "Error");
+                    return new(null, 400, "Error", GetAllErrors(validationResult));
 
                 customerCart.AddItem(cartItem);
 

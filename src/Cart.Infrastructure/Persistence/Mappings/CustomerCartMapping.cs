@@ -22,7 +22,7 @@ namespace Cart.Infrastructure.Persistence.Mappings
                 p.Property(v => v.DiscountType).HasColumnName("DiscountType");
             });
 
-            builder.HasMany(x => x.Items).WithOne(x => x.CustomerCart).HasForeignKey(x => x.CartId);
+            builder.HasMany(x => x.CartItems).WithOne(x => x.CustomerCart).HasForeignKey(x => x.CartId);
         }
     }
 }

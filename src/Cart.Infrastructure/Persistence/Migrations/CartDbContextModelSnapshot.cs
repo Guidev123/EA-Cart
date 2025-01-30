@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Cart.Infrastructure.Migrations
+namespace Cart.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
     partial class CartDbContextModelSnapshot : ModelSnapshot
@@ -87,7 +87,7 @@ namespace Cart.Infrastructure.Migrations
             modelBuilder.Entity("Cart.Core.Entities.CartItem", b =>
                 {
                     b.HasOne("Cart.Core.Entities.CustomerCart", "CustomerCart")
-                        .WithMany("Items")
+                        .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -132,7 +132,7 @@ namespace Cart.Infrastructure.Migrations
 
             modelBuilder.Entity("Cart.Core.Entities.CustomerCart", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }
