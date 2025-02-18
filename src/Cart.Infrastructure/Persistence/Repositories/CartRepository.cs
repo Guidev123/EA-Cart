@@ -26,7 +26,7 @@ namespace Cart.Infrastructure.Persistence.Repositories
         }
 
         public async Task<bool> CartItemAlreadyExists(Guid itemId) =>
-            await _context.CartItems.FromSqlInterpolated($"SELECT * FROM CartItems WHERE ProductId ={itemId}").AnyAsync();
+            await _context.CartItems.AsNoTracking().AnyAsync(x => x.ProductId == itemId);
 
         public async Task<CartItem?> GetCartItemByIdAsync(Guid cartId, Guid productId) =>
             await _context.CartItems.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == productId && x.CartId == cartId);
